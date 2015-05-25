@@ -1,10 +1,20 @@
 Bpm = {
+    activitiHost: '172.17.0.32',
+    auth: 'kermit:kermit',
+    size: 10,
+
     refreshTaskList: function() {
-        Meteor.call("refreshTaskList", function(err, res) {
+        Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
             if (err) {
-              console.log("errore: %s" , err.message);
+                console.log("errore: %s" , err.message);
             } else {
-              Session.set('taskList', res);
+                Session.set('taskList', res);
+                var pages = new Array();
+                for(n=0; n < Session.get('taskList').total / Bpm.size; n++) {
+                    pages.push(n+1);
+                }
+                Session.set('pages', pages);
+                Session.set('lastUpdate', new Date());
             }
         });
     },
@@ -25,6 +35,9 @@ if (Meteor.isClient) {
   Bpm.refreshTaskList();
 
   Template.hello.helpers({
+    lastUpdate: function () {
+      return Session.get('lastUpdate') ? Session.get('lastUpdate') : 'never';
+    },
     counter: function () {
       return Session.get('taskList') ? Session.get('taskList').total : 0;
     },
@@ -33,6 +46,12 @@ if (Meteor.isClient) {
     },
     formData: function() {
         return Session.get('formData');
+    },
+    pages: function() {
+        return Session.get("pages");
+    },
+    currentPage: function() {
+        return Session.get('currentPage') ? Session.get('currentPage') : 1;
     }
   });
 
@@ -42,32 +61,38 @@ if (Meteor.isClient) {
     },
     'click .claim': function () {
         Bpm.formData(this.id);
+    },
+    'click .page': function (evt) {
+        Bpm.start = ($(evt.target).attr('data-page')-1) * Bpm.size;
+        Session.set('currentPage', $(evt.target).attr('data-page'));
+        Bpm.refreshTaskList();
     }
   });
 }
 
 if (Meteor.isServer) {
-    var activiti = 'http://172.17.0.28:8080/activiti-rest/service/';
-    var options = { auth: 'kermit:kermit' };
+    var activitiUrl = 'http://' + Bpm.activitiHost + ':8080/activiti-rest/service/';
+    var options = { auth: Bpm.auth };
+
     Meteor.startup(function () {
         Meteor.methods({
-            test: function () {
-                 console.log('test');
-            },
-            refreshTaskList: function () {
-                var res = HTTP.call("GET", activiti + 'runtime/tasks', options);
+            refreshTaskList: function (start, size) {
+                options.params = {
+                    start: start ? start : 0,
+                    size: size
+                };
+                var res = HTTP.call("GET", activitiUrl + 'runtime/tasks', options);
                 var content = JSON.parse(res.content);
                 return content;
             },
             formData: function(taskId) {
-                console.log('Meteor.startup4');
                 /*options.headers = {
                     "Content-Type": "application/json"
                 };*/
                 options.params = {
                     taskId: taskId
                 };
-                var res = HTTP.call("GET", activiti + 'form/form-data', options);
+                var res = HTTP.call("GET", activitiUrl + 'form/form-data', options);
                 var content = JSON.parse(res.content);
                 return content;
             }

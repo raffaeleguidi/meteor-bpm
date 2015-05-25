@@ -10,8 +10,9 @@
 
 <template name="hello">
   <button>Refresh task list</button>
-  <p>You'have {{taskList.total}} tasks available.</p>
+  <p>You have {{taskList.total}} tasks available (as of {{lastUpdate}}).</p>
 
+    Page: {{currentPage}}
     <ul>
     {{#each taskList.data}}
         <li>{{id}}, {{name}}, {{assignee}}
@@ -19,6 +20,7 @@
         </li>
     {{/each}}
     </ul>
+    Vai a pagina {{#each pages}}<a class="page" data-page="{{this}}" href="#page{{this}}">[ {{this}} ]</a> {{/each}}
     {{#if formData}}
     <p>
         <h2>Form for task {{formData.taskId}}</h2>
