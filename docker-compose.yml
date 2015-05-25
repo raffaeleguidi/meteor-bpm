@@ -1,0 +1,14 @@
+activiti:
+  image: eternnoir/activiti:latest
+  expose:
+   - 80
+  links:
+   - mysql
+mysql:
+  image: sameersbn/mysql:latest
+  environment:
+    - DB_USER=activiti
+    - DB_PASS=password
+    - DB_NAME=activiti_production
+  volumes:
+    - /opt/mysql/data:/var/lib/mysql

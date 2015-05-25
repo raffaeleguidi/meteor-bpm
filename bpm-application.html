@@ -1,0 +1,38 @@
+<head>
+  <title>BPM-Application</title>
+</head>
+
+<body>
+  <h1>BPM-Application</h1>
+
+  {{> hello}}
+</body>
+
+<template name="hello">
+  <button>Refresh task list</button>
+  <p>You'have {{taskList.total}} tasks available.</p>
+
+    <ul>
+    {{#each taskList.data}}
+        <li>{{id}}, {{name}}, {{assignee}}
+            <a class="claim" data-taskid="{{id}}" href="#{{id}}">claim</a>
+        </li>
+    {{/each}}
+    </ul>
+    {{#if formData}}
+    <p>
+        <h2>Form for task {{formData.taskId}}</h2>
+        <form>
+            The form has {{formData.formProperties.length}} properties:
+            <ul>
+            {{#each formData.formProperties}}
+                <li>{{name}}&nbsp;
+                    <input type="text" id="{{name}}" value="{{value}}"/>
+                </li>
+            {{/each}}
+            </ul>
+            <button>Save</button>
+        </form>
+    </p>
+    {{/if}}
+</template>
