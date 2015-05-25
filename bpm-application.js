@@ -1,6 +1,7 @@
 Bpm = {
-    activitiHost: '172.17.0.32',
+    activitiHost: '172.17.0.52',
     auth: 'kermit:kermit',
+    start: 0,
     size: 10,
 
     refreshTaskList: function() {
