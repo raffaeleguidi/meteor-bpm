@@ -2,7 +2,7 @@ Bpm = {
     activitiHost: 'activiti',
     auth: 'kermit:kermit',
     start: 0,
-    size: 5,
+    size: 10,
 
     refreshTaskList: function() {
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
@@ -28,13 +28,9 @@ Bpm = {
             }
         });
     },
-    complete: function(taskId, properties) {
+    complete: function(taskId, properties, cb) {
         Meteor.call("complete", taskId, properties, function(err, res) {
-            if (err) {
-              console.log("errore: %s" , err.message);
-            } else {
-                Session.set('formData', undefined);
-            }
+            cb(err, res);
         });
     }
 }
@@ -53,14 +49,8 @@ if (Meteor.isClient) {
     active: function(item) {
         return Session.get('currentPage') ? Session.get('currentPage') == item : item == 1;
     },
-    lastUpdate: function () {
-      return Session.get('lastUpdate') ? Session.get('lastUpdate') : 'never';
-    },
     counter: function () {
       return Session.get('taskList') ? Session.get('taskList').total : 0;
-    },
-    taskList: function() {
-        return Session.get('taskList');
     },
     taskSelected: function() {
         console.log("eccomi %s, %s", JSON.stringify(Session.get('formData')), Session.get('formData') != null && Session.get('formData') != undefined);
@@ -83,20 +73,24 @@ if (Meteor.isClient) {
     }
   });
 
+  function reset(){
+    console.log('reset');
+    Bpm.start = 0;
+    Session.set("currentPage", 1);
+    Bpm.refreshTaskList();
+    Session.set("formData", undefined);
+  }
+
   Template.tasklistWidget.events({
     'click .refresh': function (evt) {
-        console.log('refresh');
-        Bpm.start = 0;
-        Session.set("currentPage", 1);
-        Bpm.refreshTaskList();
-        Session.set("formData", undefined);
-        return false;
+        reset();
     },
     'click .claim': function () {
         console.log('claim');
         Session.set('currentTask', this);
         Bpm.formData(this.id);
-        return false;
+        window.location.hash = 'form';
+        //return false;
     },
     'click .page': function (evt) {
         console.log('page');
@@ -104,6 +98,20 @@ if (Meteor.isClient) {
         Session.set('currentPage', $(evt.target).attr('data-page'));
         Bpm.refreshTaskList();
     }
+  });
+
+  Template.body.events({
+    'click .page-title': function () {
+        reset();
+        return false;
+    }
+  });
+
+  Template.registerHelper("lastUpdate", function () {
+      return Session.get('lastUpdate') ? Session.get('lastUpdate') : 'never';
+  });
+  Template.registerHelper("taskList", function() {
+        return Session.get('taskList');
   });
 
   Template.formWidget.events({
@@ -116,14 +124,22 @@ if (Meteor.isClient) {
         console.log('complete');
         evt.preventDefault();
         var properties = _.map($('input.formData'), function(elem){
-
             return {
                 id: $(elem).attr("data-property-id"),
                 value: elem.value
             }
         });
-        //console.log("properties: %s", JSON.stringify(properties));
-        Bpm.complete(Session.get("formData").taskId, properties);
+        Bpm.complete(Session.get("formData").taskId, properties, function(err, res){
+            if (err) {
+                alert(err.message);
+            } else {
+                if (res.error) {
+                    alert(res.error);
+                } else {
+                    Session.set('formData', undefined);
+                }
+            }
+        });
         Bpm.refreshTaskList();
         return false;
     }
@@ -146,9 +162,6 @@ if (Meteor.isServer) {
                 return content;
             },
             formData: function(taskId) {
-                /*options.headers = {
-                    "Content-Type": "application/json"
-                };*/
                 options.params = {
                     taskId: taskId
                 };
