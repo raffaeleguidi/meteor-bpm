@@ -3,45 +3,89 @@
 </head>
 
 <body>
-  <h1>BPM-Application</h1>
+    <div class="container">
+        <h1 style="margin-top: 75px">BPM-Application</h1>
+        <div class="section">
+        {{> hello}}
+        </div>
+    </div>
 
-  {{> hello}}
 </body>
 
 <template name="hello">
-  <button class="refresh">Refresh task list</button>
-  <p>You have {{#if taskList.total}}{{taskList.total}}{{else}}no{{/if}} tasks available (as of {{lastUpdate}}).</p>
+    <div class="row">
+        <div class="col s12 l6">
+            <h3>Task list</h3>
+            <p>You have {{#if taskList.total}}{{taskList.total}}{{else}}no{{/if}} tasks available (as of {{lastUpdate}}).</p>
 
-    {{#if taskList.total}}
-        Page: {{currentPage}}
-        <ul>
-        {{#each taskList.data}}
-            <li>{{id}}, {{name}}, {{assignee}}
-                <a class="claim" data-taskid="{{id}}" href="#{{id}}">claim</a>
-            </li>
-        {{/each}}
-        </ul>
-        Vai a pagina {{#each pages}}<a class="page" data-page="{{this}}" href="#page{{this}}">[ {{this}} ]</a> {{/each}}
-    {{/if}}
-    {{#if formData}}
-    <p>
-        <h2>Form for task {{formData.taskId}}</h2>
-        {{#if formData.error}}
-            <h3>Error</h3>
-            <blockquote>{{formData.error}}</blockquote>
-        {{else}}
-            <form>
-                The form has {{formData.formProperties.length}} properties:
-                <ul>
-                {{#each formData.formProperties}}
-                    <li>{{name}}&nbsp;
-                        <input class="formData" type="text" id="formData_{{id}}" data-property-id="{{id}}" value="{{value}}"/>
-                    </li>
+            {{#if taskList.total}}
+                Page: {{currentPage}}
+                <table class="striped hoverable bordered">
+                    <thead>
+                        <th>Task #</th>
+                        <th>Name</th>
+                        <th>Assignee</th>
+                    </thead>
+                    <tbody>
+                {{#each taskList.data}}
+                        <tr class="claim">
+                            <td>{{id}}</td>
+                            <td>{{name}}</td>
+                            <td>{{assignee}}</td>
+<!--
+                            <td>
+                                <a class="btn small claim" data-taskid="{{id}}" href="#{{id}}">claim</a>
+                            </td>
+-->
+                        </tr>
                 {{/each}}
+                    </tbody>
+                </table>
+
+                <ul class="pagination">
+                    <li class="disabled"><a href="#!"><i class="mdi-navigation-chevron-left"></i></a></li>
+                    {{#each pages}}
+                    <li class="{{#if active this}}active{{else}}waves-effect{{/if}}"><a class="page" data-page="{{this}}" href="#page{{this}}">{{this}}</a></li>
+                    {{/each}}
+                    <li class="waves-effect"><a href="#!"><i class="mdi-navigation-chevron-right"></i></a></li>
                 </ul>
-                <button class="unselect">Hide</button> <button class="complete">Complete</button>
-            </form>
-        {{/if}}
-    </p>
-    {{/if}}
+
+                <br clear="left"/>
+            {{/if}}
+            <div class="row center">
+                <p>
+                    <a class="btn large refresh">Refresh</a>
+                </p>
+            </div>
+        </div>
+        <div class="col s12 l6">
+            {{#if formData}}
+            <p>
+                <h3>{{currentTask.name}}</h3>
+                <hr />
+                <h5 class="right">Task #{{formData.taskId}}</h5>
+                <br clear="both" />
+                {{#if formData.error}}
+                    <h4>Error</h4>
+                    <blockquote>{{formData.error}}</blockquote>
+                {{else}}
+                    <form>
+<!--                        The form has {{formData.formProperties.length}} properties:-->
+                        <ul>
+                        {{#each formData.formProperties}}
+                            <li>{{name}}&nbsp;
+                                <input class="formData" type="text" id="formData_{{id}}" data-property-id="{{id}}" value="{{value}}"/>
+                            </li>
+                        {{/each}}
+                        </ul>
+                    </form>
+                {{/if}}
+                <div class="row right">
+                    <a class="btn small unselect">Hide</a>
+                    <a class="btn small complete">Complete</a>
+                </div>
+            </p>
+            {{/if}}
+        </div>
+    </div>
 </template>

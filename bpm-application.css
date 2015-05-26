@@ -1,1 +1,9 @@
 /* CSS declarations go here */
+
+h1 {
+    color: teal;
+    border-bottom: 2px solid orange;
+}
+h2 { color: teal }
+h3 { color: teal }
+h4 { color: teal }

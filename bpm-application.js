@@ -2,7 +2,7 @@ Bpm = {
     activitiHost: 'activiti',
     auth: 'kermit:kermit',
     start: 0,
-    size: 10,
+    size: 5,
 
     refreshTaskList: function() {
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
@@ -66,18 +66,27 @@ if (Meteor.isClient) {
     },
     currentPage: function() {
         return Session.get('currentPage') ? Session.get('currentPage') : 1;
+    },
+    currentTask: function() {
+        return Session.get('currentTask');
+    },
+    active: function(item) {
+        return Session.get('currentPage') ? Session.get('currentPage') == item : item == 1;
     }
   });
 
   Template.hello.events({
     'click .refresh': function (evt) {
         console.log('refresh');
+        Bpm.start = 0;
+        Session.set("currentPage", 1);
         Bpm.refreshTaskList();
         Session.set("formData", undefined);
         return false;
     },
     'click .claim': function () {
         console.log('claim');
+        Session.set('currentTask', this);
         Bpm.formData(this.id);
         return false;
     },
