@@ -1,5 +1,5 @@
 Bpm = {
-    activitiHost: '172.17.0.52',
+    activitiHost: 'activiti',
     auth: 'kermit:kermit',
     start: 0,
     size: 10,

@@ -6,6 +6,8 @@ activiti:
    - mysql
 mysql:
   image: sameersbn/mysql:latest
+  expose:
+   - 3306
   environment:
     - DB_USER=activiti
     - DB_PASS=password
