@@ -42,9 +42,17 @@ Bpm = {
 
 if (Meteor.isClient) {
 
-  Bpm.refreshTaskList();
+    Bpm.refreshTaskList();
 
-  Template.hello.helpers({
+//    Template.registerHelper('thumbUrl', function(){
+//        return Session.get("rootUrl") + "api/thumb/" + this._id + "?v=" + (this.version ? this.version : '0');
+//    });
+
+
+  Template.tasklistWidget.helpers({
+    active: function(item) {
+        return Session.get('currentPage') ? Session.get('currentPage') == item : item == 1;
+    },
     lastUpdate: function () {
       return Session.get('lastUpdate') ? Session.get('lastUpdate') : 'never';
     },
@@ -53,9 +61,6 @@ if (Meteor.isClient) {
     },
     taskList: function() {
         return Session.get('taskList');
-    },
-    formData: function() {
-        return Session.get('formData');
     },
     taskSelected: function() {
         console.log("eccomi %s, %s", JSON.stringify(Session.get('formData')), Session.get('formData') != null && Session.get('formData') != undefined);
@@ -66,16 +71,19 @@ if (Meteor.isClient) {
     },
     currentPage: function() {
         return Session.get('currentPage') ? Session.get('currentPage') : 1;
-    },
-    currentTask: function() {
-        return Session.get('currentTask');
-    },
-    active: function(item) {
-        return Session.get('currentPage') ? Session.get('currentPage') == item : item == 1;
     }
   });
 
-  Template.hello.events({
+  Template.formWidget.helpers({
+    formData: function() {
+        return Session.get('formData');
+    },
+    currentTask: function() {
+        return Session.get('currentTask');
+    }
+  });
+
+  Template.tasklistWidget.events({
     'click .refresh': function (evt) {
         console.log('refresh');
         Bpm.start = 0;
@@ -90,16 +98,19 @@ if (Meteor.isClient) {
         Bpm.formData(this.id);
         return false;
     },
-    'click .unselect': function () {
-        console.log('unselect');
-        Session.set('formData', undefined);
-        return false;
-    },
     'click .page': function (evt) {
         console.log('page');
         Bpm.start = ($(evt.target).attr('data-page')-1) * Bpm.size;
         Session.set('currentPage', $(evt.target).attr('data-page'));
         Bpm.refreshTaskList();
+    }
+  });
+
+  Template.formWidget.events({
+    'click .unselect': function () {
+        console.log('unselect');
+        Session.set('formData', undefined);
+        return false;
     },
     'click .complete': function (evt) {
         console.log('complete');

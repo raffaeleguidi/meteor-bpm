@@ -1,8 +1,12 @@
 /* CSS declarations go here */
 
-h1 {
-    color: teal;
-    border-bottom: 2px solid orange;
+.page-title {
+    font-size: 4em;
+}
+.top-nav {
+    background-color: lightseagreen;
+    padding-top: 30px;
+    min-height: 100px;
 }
 h2 { color: teal }
 h3 { color: teal }
