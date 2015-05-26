@@ -9,32 +9,39 @@
 </body>
 
 <template name="hello">
-  <button>Refresh task list</button>
-  <p>You have {{taskList.total}} tasks available (as of {{lastUpdate}}).</p>
+  <button class="refresh">Refresh task list</button>
+  <p>You have {{#if taskList.total}}{{taskList.total}}{{else}}no{{/if}} tasks available (as of {{lastUpdate}}).</p>
 
-    Page: {{currentPage}}
-    <ul>
-    {{#each taskList.data}}
-        <li>{{id}}, {{name}}, {{assignee}}
-            <a class="claim" data-taskid="{{id}}" href="#{{id}}">claim</a>
-        </li>
-    {{/each}}
-    </ul>
-    Vai a pagina {{#each pages}}<a class="page" data-page="{{this}}" href="#page{{this}}">[ {{this}} ]</a> {{/each}}
+    {{#if taskList.total}}
+        Page: {{currentPage}}
+        <ul>
+        {{#each taskList.data}}
+            <li>{{id}}, {{name}}, {{assignee}}
+                <a class="claim" data-taskid="{{id}}" href="#{{id}}">claim</a>
+            </li>
+        {{/each}}
+        </ul>
+        Vai a pagina {{#each pages}}<a class="page" data-page="{{this}}" href="#page{{this}}">[ {{this}} ]</a> {{/each}}
+    {{/if}}
     {{#if formData}}
     <p>
         <h2>Form for task {{formData.taskId}}</h2>
-        <form>
-            The form has {{formData.formProperties.length}} properties:
-            <ul>
-            {{#each formData.formProperties}}
-                <li>{{name}}&nbsp;
-                    <input type="text" id="{{name}}" value="{{value}}"/>
-                </li>
-            {{/each}}
-            </ul>
-            <button>Save</button>
-        </form>
+        {{#if formData.error}}
+            <h3>Error</h3>
+            <blockquote>{{formData.error}}</blockquote>
+        {{else}}
+            <form>
+                The form has {{formData.formProperties.length}} properties:
+                <ul>
+                {{#each formData.formProperties}}
+                    <li>{{name}}&nbsp;
+                        <input class="formData" type="text" id="formData_{{id}}" data-property-id="{{id}}" value="{{value}}"/>
+                    </li>
+                {{/each}}
+                </ul>
+                <button class="unselect">Hide</button> <button class="complete">Complete</button>
+            </form>
+        {{/if}}
     </p>
     {{/if}}
 </template>
