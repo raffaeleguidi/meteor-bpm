@@ -21,7 +21,7 @@ Meteor.startup(function () {
         $(document).on('keydown', function (evt) {
             if (evt.target != document.body) return;
             switch(evt.keyCode) {
-                case 82: Bpm.refreshTaskList(); return; // r
+                case 82: Bpm.reset(); return; // r
                 case 67: return; // c
             }
         });

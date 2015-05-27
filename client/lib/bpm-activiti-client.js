@@ -52,6 +52,13 @@ Bpm = {
         Meteor.call("complete", taskId, normalizeProperties(formElements), function(err, res) {
             cb(err, res);
         });
+    },
+    reset: function(){
+        Bpm.start = 0;
+        Session.set("currentPage", 1);
+        this.refreshTaskList();
+        Session.set("formData", undefined);
     }
+
 }
 

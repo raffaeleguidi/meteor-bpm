@@ -1,11 +1,3 @@
-function reset(){
-    console.log('reset');
-    Bpm.start = 0;
-    Session.set("currentPage", 1);
-    Bpm.refreshTaskList();
-    Session.set("formData", undefined);
-}
-
 Template.tasklistWidget.helpers({
     active: function(item) {
         return Session.get('currentPage') ? Session.get('currentPage') == item : item == 1;
