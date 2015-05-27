@@ -19,10 +19,12 @@ Meteor.startup(function () {
     Bpm.refreshTaskList();
     $( document ).ready(function() {
         $(document).on('keydown', function (evt) {
-            if (evt.target != document.body) return;
+            console.log(evt.keyCode);
+            //if (evt.target != document.body) return;
             switch(evt.keyCode) {
-                case 82: Bpm.reset(); return; // r
+                case 82: $('.refresh').click(); return; // r
                 case 67: return; // c
+                case 13: $('.complete').click(); return; // enter key
             }
         });
     });

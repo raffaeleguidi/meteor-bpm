@@ -26,14 +26,13 @@ Template.tasklistWidget.helpers({
 
 Template.tasklistWidget.events({
     'click .refresh': function (evt) {
-        reset();
+        Bpm.reset();
     },
     'click .claim': function () {
         console.log('claim');
         Session.set('currentTask', this);
         Bpm.formData(this.id);
         window.location.hash = 'form';
-        //return false;
     },
     'click .page': function (evt) {
         var dataAttr = $(evt.target).attr('data-page');
