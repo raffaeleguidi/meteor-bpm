@@ -15,40 +15,142 @@
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="firstStep"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="firstStep" targetRef="secondStep"></sequenceFlow>
-    <userTask id="secondStep" name="Look what he has done" activiti:assignee="${initiator}">
+    <userTask id="secondStep" name="Look what the colleague has done" activiti:assignee="${initiator}">
       <extensionElements>
         <activiti:formProperty id="testString" name="Look the test string" type="string" expression="${testString}" writable="false"></activiti:formProperty>
         <activiti:formProperty id="testDate" name="Test date again" type="date" default="${testDate}" datePattern="yyyy-MM-dd"></activiti:formProperty>
         <activiti:formProperty id="testLong" name="This is a long" type="long" required="true"></activiti:formProperty>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow3" sourceRef="secondStep" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="secondStep" targetRef="scripttask1"></sequenceFlow>
+    <scriptTask id="scripttask1" name="Local script task" scriptFormat="javascript" activiti:autoStoreVariables="false">
+      <script>var tmp = execution.getVariable('testString');
+execution.setVariable("testScriptOutput", 'Hi, this is js answering to ' + tmp);</script>
+    </scriptTask>
+    <sequenceFlow id="flow4" sourceRef="scripttask1" targetRef="scripttask2"></sequenceFlow>
+    <userTask id="afterTheScript" name="Check script result" activiti:assignee="${initiator}">
+      <extensionElements>
+        <activiti:formProperty id="testScriptOutput" name="Output of the script" type="string" default="${testScriptOutput}"></activiti:formProperty>
+        <activiti:formProperty id="testHttpOutput" name="Http get result" type="string" default="${testHttpOutput}"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow5" sourceRef="afterTheScript" targetRef="endevent1"></sequenceFlow>
+    <scriptTask id="scripttask2" name="Script with http get" scriptFormat="javascript" activiti:autoStoreVariables="false">
+      <script>var url = 'https://raw.githubusercontent.com/raffaeleguidi/meteor-bpm/master/README.md';
+var response = httpGet(url).data;
+execution.setVariable("testHttpOutput",response);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function httpGet(theUrl){
+    var con = new java.net.URL(theUrl).openConnection();
+    con.requestMethod = "GET";
+ 
+    return asResponse(con);
+}
+ 
+function httpPost(theUrl, data, contentType){
+    contentType = contentType || "application/json";
+    var con = new java.net.URL(theUrl).openConnection();
+ 
+    con.requestMethod = "POST";
+    con.setRequestProperty("Content-Type", contentType);
+ 
+    // Send post request
+    con.doOutput=true;
+    write(con.outputStream, data);
+ 
+    return asResponse(con);
+}
+ 
+function asResponse(con){
+    var d = read(con.inputStream);
+ 
+    return {data : d, statusCode : con.responseCode};
+}
+ 
+function write(outputStream, data){
+    var wr = new java.io.DataOutputStream(outputStream);
+    wr.writeBytes(data);
+    wr.flush();
+    wr.close();
+}
+ 
+function read(inputStream){
+    var inReader = new java.io.BufferedReader(new java.io.InputStreamReader(inputStream));
+    var inputLine;
+    var response = new java.lang.StringBuffer();
+ 
+    while ((inputLine = inReader.readLine()) != null) {
+           response.append(inputLine);
+    }
+    inReader.close();
+    return response.toString();
+}</script>
+    </scriptTask>
+    <sequenceFlow id="flow6" sourceRef="scripttask2" targetRef="afterTheScript"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_sampleProcess">
     <bpmndi:BPMNPlane bpmnElement="sampleProcess" id="BPMNPlane_sampleProcess">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="90.0" y="283.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="20.0" y="128.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="firstStep" id="BPMNShape_firstStep">
-        <omgdc:Bounds height="55.0" width="105.0" x="135.0" y="140.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="109.0" y="159.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="480.0" y="200.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="640.0" y="128.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="secondStep" id="BPMNShape_secondStep">
-        <omgdc:Bounds height="55.0" width="105.0" x="313.0" y="60.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="188.0" y="90.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="scripttask1" id="BPMNShape_scripttask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="275.0" y="159.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="afterTheScript" id="BPMNShape_afterTheScript">
+        <omgdc:Bounds height="55.0" width="105.0" x="468.0" y="159.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="scripttask2" id="BPMNShape_scripttask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="379.0" y="90.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
-        <omgdi:waypoint x="107.0" y="283.0"></omgdi:waypoint>
-        <omgdi:waypoint x="187.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="55.0" y="145.0"></omgdi:waypoint>
+        <omgdi:waypoint x="161.0" y="159.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
-        <omgdi:waypoint x="187.0" y="140.0"></omgdi:waypoint>
-        <omgdi:waypoint x="365.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="161.0" y="159.0"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="145.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
-        <omgdi:waypoint x="365.0" y="115.0"></omgdi:waypoint>
-        <omgdi:waypoint x="497.0" y="200.0"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="145.0"></omgdi:waypoint>
+        <omgdi:waypoint x="327.0" y="159.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="327.0" y="159.0"></omgdi:waypoint>
+        <omgdi:waypoint x="431.0" y="145.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="573.0" y="186.0"></omgdi:waypoint>
+        <omgdi:waypoint x="657.0" y="163.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="431.0" y="145.0"></omgdi:waypoint>
+        <omgdi:waypoint x="520.0" y="159.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
