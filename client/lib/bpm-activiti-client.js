@@ -7,6 +7,21 @@ function calculatePages(tasks) {
     return pages;
 }
 
+function normalizeProperties(formElements) {
+    return _.map(formElements, function(elem){
+        var value = $(elem).val();
+        if ($(elem).hasClass('date')) {
+            console.log('click .complete: convert to a real date! the format is into the process definition');
+            value = '2014-12-31';
+        }
+        console.log(new Date());
+        return {
+            id: $(elem).attr("data-property-id"),
+            value: value
+        }
+    });
+}
+
 Bpm = {
     activitiHost: 'activiti',
     auth: 'kermit:kermit',
@@ -33,8 +48,8 @@ Bpm = {
             }
         });
     },
-    complete: function(taskId, properties, cb) {
-        Meteor.call("complete", taskId, properties, function(err, res) {
+    complete: function(taskId, formElements, cb) {
+        Meteor.call("complete", taskId, normalizeProperties(formElements), function(err, res) {
             cb(err, res);
         });
     }

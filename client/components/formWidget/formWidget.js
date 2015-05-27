@@ -38,19 +38,7 @@ Template.formWidget.events({
     'click .complete': function (evt) {
         console.log('complete');
         evt.preventDefault();
-        var properties = _.map($('.formData'), function(elem){
-            var value = $(elem).val();
-            if ($(elem).hasClass('date')) {
-                console.log('click .complete: convert to a real date! the format is into the process definition');
-                value = '2014-12-31';
-            }
-            console.log(new Date());
-            return {
-                id: $(elem).attr("data-property-id"),
-                value: value
-            }
-        });
-        Bpm.complete(Session.get("formData").taskId, properties, function(err, res){
+        Bpm.complete(Session.get("formData").taskId, $('.formData'), function(err, res){
             if (err) {
                 alert(err.message);
             } else {
