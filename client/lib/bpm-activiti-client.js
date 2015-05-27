@@ -11,10 +11,9 @@ Bpm = {
     activitiHost: 'activiti',
     auth: 'kermit:kermit',
     start: 0,
-    size: 2,
+    size: 10,
 
     refreshTaskList: function() {
-//        console.log('client refreshTaskList');
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
             if (err) {
                 console.log("errore: %s" , err.message);
@@ -24,7 +23,6 @@ Bpm = {
                 Session.set('lastUpdate', new Date());
             }
         });
-//        console.log('end client refreshTaskList');
     },
     formData: function(taskId) {
         Meteor.call("formData", taskId, function(err, res) {

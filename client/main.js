@@ -14,4 +14,6 @@ Template.registerHelper("taskList", function() {
 
 Meteor.startup(function () {
     Bpm.refreshTaskList();
+    $( document ).ready(function() {
+    });
 });
