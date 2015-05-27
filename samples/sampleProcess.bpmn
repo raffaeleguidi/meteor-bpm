@@ -38,7 +38,7 @@ execution.setVariable("testScriptOutput", 'Hi, this is js answering to ' + tmp);
     <scriptTask id="scripttask2" name="Script with http get" scriptFormat="javascript" activiti:autoStoreVariables="false">
       <script>var url = 'https://raw.githubusercontent.com/raffaeleguidi/meteor-bpm/master/README.md';
 var response = httpGet(url).data;
-execution.setVariable("testHttpOutput",response);
+execution.setVariable("testHttpOutput", response);
 
 
 

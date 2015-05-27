@@ -47,11 +47,11 @@ Template.formWidget.events({
                 if (res.error) {
                     alert(res.error);
                 } else {
-                    Session.set('formData', undefined);
+                    Bpm.refreshTaskList();
                 }
             }
         });
-        Bpm.refreshTaskList();
+        Bpm.reset();
         return false;
     }
 });
