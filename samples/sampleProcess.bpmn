@@ -1,53 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-  <process id="faiQualcosaProcess" name="Fai Qualcosa Process" isExecutable="true">
+  <process id="sampleProcess" name="Meteor Sample Process" isExecutable="true">
     <startEvent id="startevent1" name="Start" activiti:initiator="initiator">
       <extensionElements>
-        <activiti:formProperty id="test" name="Test" type="string"></activiti:formProperty>
+        <activiti:formProperty id="testString" name="Some test string" type="string"></activiti:formProperty>
       </extensionElements>
     </startEvent>
-    <userTask id="faiqualcosa" name="Fai qualcosa!" activiti:candidateGroups="management">
+    <userTask id="firstStep" name="Do something!" activiti:candidateGroups="management">
       <extensionElements>
-        <activiti:formProperty id="test" name="Test" type="string" default="${test}"></activiti:formProperty>
-        <activiti:formProperty id="test2" name="Prova ora" type="date" datePattern="yyyy-MM-dd"></activiti:formProperty>
+        <activiti:formProperty id="testString" name="This is a test string" type="string" default="${testString}"></activiti:formProperty>
+        <activiti:formProperty id="testDate" name="This is a date" type="date" datePattern="yyyy-MM-dd"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <endEvent id="endevent1" name="End"></endEvent>
-    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="faiqualcosa"></sequenceFlow>
-    <sequenceFlow id="flow2" sourceRef="faiqualcosa" targetRef="guardaUnPo"></sequenceFlow>
-    <userTask id="guardaUnPo" name="Guarda un po'" activiti:assignee="${initiator}">
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="firstStep"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="firstStep" targetRef="secondStep"></sequenceFlow>
+    <userTask id="secondStep" name="Look what he has done" activiti:assignee="${initiator}">
       <extensionElements>
-        <activiti:formProperty id="test" name="Test" type="string" expression="${test}" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="test2" name="Prova ora" type="date" default="${test2}" datePattern="yyyy-MM-dd"></activiti:formProperty>
+        <activiti:formProperty id="testString" name="Look the test string" type="string" expression="${testString}" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="testDate" name="Test date again" type="date" default="${testDate}" datePattern="yyyy-MM-dd"></activiti:formProperty>
+        <activiti:formProperty id="testLong" name="This is a long" type="long" required="true"></activiti:formProperty>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow3" sourceRef="guardaUnPo" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="secondStep" targetRef="endevent1"></sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_faiQualcosaProcess">
-    <bpmndi:BPMNPlane bpmnElement="faiQualcosaProcess" id="BPMNPlane_faiQualcosaProcess">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_sampleProcess">
+    <bpmndi:BPMNPlane bpmnElement="sampleProcess" id="BPMNPlane_sampleProcess">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="90.0" y="283.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="faiqualcosa" id="BPMNShape_faiqualcosa">
-        <omgdc:Bounds height="55.0" width="105.0" x="250.0" y="220.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="firstStep" id="BPMNShape_firstStep">
+        <omgdc:Bounds height="55.0" width="105.0" x="135.0" y="140.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="770.0" y="340.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="480.0" y="200.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="guardaUnPo" id="BPMNShape_guardaUnPo">
-        <omgdc:Bounds height="55.0" width="105.0" x="450.0" y="130.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="secondStep" id="BPMNShape_secondStep">
+        <omgdc:Bounds height="55.0" width="105.0" x="313.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
-        <omgdi:waypoint x="125.0" y="300.0"></omgdi:waypoint>
-        <omgdi:waypoint x="302.0" y="275.0"></omgdi:waypoint>
+        <omgdi:waypoint x="107.0" y="283.0"></omgdi:waypoint>
+        <omgdi:waypoint x="187.0" y="195.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
-        <omgdi:waypoint x="302.0" y="220.0"></omgdi:waypoint>
-        <omgdi:waypoint x="502.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="187.0" y="140.0"></omgdi:waypoint>
+        <omgdi:waypoint x="365.0" y="115.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
-        <omgdi:waypoint x="502.0" y="185.0"></omgdi:waypoint>
-        <omgdi:waypoint x="787.0" y="340.0"></omgdi:waypoint>
+        <omgdi:waypoint x="365.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="497.0" y="200.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

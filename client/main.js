@@ -2,11 +2,14 @@ Template.body.events({
     'click .page-title': function () {
         reset();
         return false;
+    },
+    'keydown body': function(evt){
+        console.log(evt);
     }
 });
 
 Template.registerHelper("lastUpdate", function () {
-    return Session.get('lastUpdate') ? Session.get('lastUpdate') : 'never';
+    return Session.get('lastUpdate');
 });
 Template.registerHelper("taskList", function() {
     return Session.get('taskList');
@@ -15,5 +18,12 @@ Template.registerHelper("taskList", function() {
 Meteor.startup(function () {
     Bpm.refreshTaskList();
     $( document ).ready(function() {
+        $(document).on('keydown', function (evt) {
+            if (evt.target != document.body) return;
+            switch(evt.keyCode) {
+                case 82: Bpm.refreshTaskList(); return; // r
+                case 67: return; // c
+            }
+        });
     });
 });

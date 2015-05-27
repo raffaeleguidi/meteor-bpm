@@ -1,7 +1,8 @@
 Template.input_date.rendered = function(){
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
-        selectYears: 15 // Creates a dropdown of 15 years to control year
+        selectYears: 15, // Creates a dropdown of 15 years to control year
+        format: 'yyyy-mm-dd'
     });
 };
 
@@ -22,6 +23,7 @@ Template.formWidget.helpers({
     inputDisplay: function() {
         switch(this.type){
             case 'string':  return Template.input_string;
+            case 'long':  return Template.input_string;
             case 'date':  return Template.input_date;
             case 'enum':  return Template.input_enum;
         }
