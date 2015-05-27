@@ -14,7 +14,6 @@ Template.tasklistWidget.helpers({
       return Session.get('taskList') ? Session.get('taskList').total : 0;
     },
     taskSelected: function() {
-        console.log("eccomi %s, %s", JSON.stringify(Session.get('formData')), Session.get('formData') != null && Session.get('formData') != undefined);
         return Session.get('formData') != null && Session.get('formData') != undefined;
     },
     pages: function() {
@@ -22,6 +21,14 @@ Template.tasklistWidget.helpers({
     },
     currentPage: function() {
         return Session.get('currentPage') ? Session.get('currentPage') : 1;
+    },
+    previousPage: function() {
+        var currentPage = parseInt(Session.get('currentPage') ? Session.get('currentPage') : 1);
+        return currentPage > 1 ? currentPage -1 : 0;
+    },
+    nextPage: function() {
+        var currentPage = parseInt(Session.get('currentPage') ? Session.get('currentPage') : 1);
+        return currentPage < Session.get("pages").length ? currentPage + 1 : 0;
     }
 });
 
@@ -37,10 +44,11 @@ Template.tasklistWidget.events({
         //return false;
     },
     'click .page': function (evt) {
-        console.log('page');
+        var dataAttr = $(evt.target).attr('data-page');
+        if (dataAttr == 0) return false;
         Bpm.start = ($(evt.target).attr('data-page')-1) * Bpm.size;
-        Session.set('currentPage', $(evt.target).attr('data-page'));
         Bpm.refreshTaskList();
+        Session.set('currentPage', parseInt($(evt.target).attr('data-page')))
     }
 });
 

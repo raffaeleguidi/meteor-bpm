@@ -1,25 +1,30 @@
+function calculatePages(tasks) {
+    var pages = new Array();
+    var last = tasks.total / Bpm.size;
+    for(n=0; n < last; n++) {
+        pages.push(n+1);
+    }
+    return pages;
+}
+
 Bpm = {
     activitiHost: 'activiti',
     auth: 'kermit:kermit',
     start: 0,
-    size: 10,
+    size: 2,
 
     refreshTaskList: function() {
-        console.log('client refreshTaskList');
+//        console.log('client refreshTaskList');
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
             if (err) {
                 console.log("errore: %s" , err.message);
             } else {
                 Session.set('taskList', res);
-                var pages = new Array();
-                for(n=0; n < Session.get('taskList').total / Bpm.size; n++) {
-                    pages.push(n+1);
-                }
-                Session.set('pages', pages);
+                Session.set('pages', calculatePages(res));
                 Session.set('lastUpdate', new Date());
             }
         });
-        console.log('end client refreshTaskList');
+//        console.log('end client refreshTaskList');
     },
     formData: function(taskId) {
         Meteor.call("formData", taskId, function(err, res) {
