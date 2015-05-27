@@ -1,0 +1,52 @@
+
+<template name="formWidget">
+    {{#if formData}}
+    <div class="row z-depth-1" style="padding: 20px">
+        <p>
+            <h3>{{currentTask.name}}</h3>
+            <hr />
+            <h5 class="right">Task #{{formData.taskId}}</h5>
+            <br clear="both" />
+            {{#if formData.error}}
+                <h4>Error</h4>
+                <blockquote>{{formData.error}}</blockquote>
+            {{else}}
+                <form>
+                    <ul>
+                    {{#each formData.formProperties}}
+                        <li>{{name}}&nbsp;
+<!--
+                            <input class="formData {{type}}" type="text" id="formData_{{id}}" data-property-id="{{id}}" value="{{value}}"/>
+-->
+                            {{> inputDisplay}}
+                        </li>
+                    {{/each}}
+                    </ul>
+                </form>
+            {{/if}}
+            <div class="row right">
+<!--                <a class="btn small unselect"><i class="mdi-action-flip-to-back right"></i>Hide</a>-->
+                <a class="btn small complete"><i class="mdi-action-done small right"></i>Complete</a>
+            </div>
+        </p>
+    </div>
+    {{/if}}
+</template>
+
+<template name="input_string">
+    {{#if writable}}
+    <input class="formData {{type}}" type="text" id="formData_{{id}}" data-property-id="{{id}}" value="{{value}}"/>
+    {{else}}
+    <div class="section">
+        <i class="disabled">{{#if value}}{{value}}{{else}}{ empty }{{/if}}</i>
+        <hr />
+    </div>
+    {{/if}}
+</template>
+
+<template name="input_other">
+    <div class="section disabled">
+        {{type}}: {{#if value}}{{value}}{{else}}{ empty }{{/if}}
+        <hr />
+    </div>
+</template>

@@ -1,0 +1,36 @@
+<template name="tasklistWidget">
+    {{#if taskList.total}}
+        <table class="striped bordered">
+            <thead>
+                <th>Task #</th>
+                <th>Name</th>
+                <th>Assignee</th>
+            </thead>
+            <tbody>
+                {{#each taskList.data}}
+                <tr class="claim">
+                    <td>{{id}}</td>
+                    <td><a href="#form">{{name}}</a></td>
+                    <td>{{assignee}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <ul class="pagination">
+            <li class="disabled"><a href="#!"><i class="mdi-navigation-chevron-left"></i></a></li>
+            {{#each pages}}
+            <li class="{{#if active this}}active{{else}}waves-effect{{/if}}"><a class="page" data-page="{{this}}" href="#page{{this}}">{{this}}</a></li>
+            {{/each}}
+            <li class="waves-effect"><a href="#!"><i class="mdi-navigation-chevron-right"></i></a></li>
+        </ul>
+
+        <br clear="left"/>
+
+    {{/if}}
+
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large right orange refresh"><i class="large mdi-navigation-refresh"></i></a>
+    </div>
+
+</template>

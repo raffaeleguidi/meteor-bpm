@@ -11,3 +11,8 @@
 h2 { color: teal }
 h3 { color: teal }
 h4 { color: teal }
+
+.disabled {
+    color: gray;
+    font-style: italic;
+}
