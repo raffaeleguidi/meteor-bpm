@@ -1,33 +1,30 @@
-<head>
-  <title>BPM-Application</title>
-</head>
-
-<body>
-    <header>
-        <nav class="top-nav">
-            <div class="container">
-                <div class="nav-wrapper"><a class="mytitle page-title" href="/">BPM-Application</a></div>
-            </div>
-        </nav>
-    </header>
-    <div class="container" style="margin-top: 30px">
-        <div class="section">
-            <div class="row">
-                <div class="col s12 l12">
-                <h3>Task list</h3>
-                <p>
-                    {{#if lastUpdate}}As of {{lastUpdate}} y{{else}}Y{{/if}}ou have {{#if taskList.total}}{{taskList.total}}{{else}}no{{/if}} tasks available.
-                </p>
+<template name="main">
+    <body>
+        <header>
+            <nav class="top-nav">
+                <div class="container">
+                    <div class="nav-wrapper"><a class="mytitle page-title" href="/">BPM-Application</a></div>
                 </div>
-                <div class="col s12 l4">
-                    {{> tasklistWidget}}
-                </div>
-                <a class="hide-on-large-only" name="form">&nbsp;</a>
-                <div class="col s12 l8">
-                    {{> formWidget}}
+            </nav>
+        </header>
+        <div class="container" style="margin-top: 30px">
+            <div class="section">
+                <div class="row">
+                    <div class="col s12 l12">
+                    <h3>Task list</h3>
+                    <p>
+                        {{#if lastUpdate}}As of {{lastUpdate}} y{{else}}Y{{/if}}ou have {{#if taskList.total}}{{taskList.total}}{{else}}no{{/if}} tasks available.
+                    </p>
+                    </div>
+                    <div class="col s12 l4">
+                        {{> tasklistWidget}}
+                    </div>
+                    <a class="hide-on-large-only" name="form">&nbsp;</a>
+                    <div class="col s12 l8">
+                        {{> formWidget}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-</body>
+    </body>
+</template>

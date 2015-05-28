@@ -1,4 +1,4 @@
-Template.body.events({
+Template.main.events({
     'click .page-title': function () {
         reset();
         return false;
@@ -8,12 +8,15 @@ Template.body.events({
     }
 });
 
+Router.configure({layoutTemplate: 'main'});
+/*Router.route('/', {name: 'main'});*/
+
 Meteor.startup(function () {
     Bpm.refreshTaskList();
     $( document ).ready(function() {
         $(document).on('keydown', function (evt) {
             //console.log(evt.keyCode);
-            //if (evt.target != document.body) return;
+            if (evt.target != document.body) return;
             switch(evt.keyCode) {
                 case 82: $('.refresh').click(); return; // r
                 case 67: return; // c
