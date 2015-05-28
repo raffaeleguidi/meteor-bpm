@@ -1,17 +1,21 @@
 log.info('Bpm object initializing');
 
-var activitiUrl = 'http://activiti:8080/activiti-rest/service/';
-var options = { auth: 'kermit:kermit', proxy: null };
-
-// REINGEGNERIZZATELO!
-var user     = 'kermit';
+Bpm = {
+    activitiUrl: 'http://activiti:8080/activiti-rest/service/',
+    user: 'kermit',
+    password: 'kermit',
+    options: function(options) {
+        options.auth = this.user + ':' + this.password;
+        return options;
+    }
+}
 
 Meteor.startup(function () {
     log.info("bpm.js");
     Meteor.methods({
         startProcessInstance: function(processInstanceId) {
         //PUT runtime/process-instances/{processInstanceId}
-            var res = HTTP.call("PUT", activitiUrl + 'runtime/process-instances/' + processInstanceId, options);
+            var res = HTTP.call("PUT", Bpm.activitiUrl + 'runtime/process-instances/' + processInstanceId, Bpm.options());
             var content = JSON.parse(res.content);
             
             console.log("Start process instance response: " + JSON.stringify(content));
@@ -23,7 +27,7 @@ Meteor.startup(function () {
 //            options.params = {
 //                startableByUser: user
 //            };
-            var res = HTTP.call("GET", activitiUrl + 'repository/process-definitions', options);
+            var res = HTTP.call("GET", Bpm.activitiUrl + 'repository/process-definitions', Bpm.options());
             var content = JSON.parse(res.content);
             
 //            console.log("List of startable process definitions: " + JSON.stringify(content));
@@ -31,20 +35,24 @@ Meteor.startup(function () {
             return content;
         },
         refreshTaskList: function (start, size) {
-            options.params = {
-                start: start ? start : 0,
-                size: size
-            };
-            var res = HTTP.call("GET", activitiUrl + 'runtime/tasks', options);
+            var options = Bpm.options({
+                params: {
+                    start: start ? start : 0,
+                    size: size
+                }
+            });
+            var res = HTTP.call("GET", Bpm.activitiUrl + 'runtime/tasks', options);
             var content = JSON.parse(res.content);
             return content;
         },
         getFormData: function(taskId) {
-            options.params = {
-                taskId: taskId
-            };
+            var options = Bpm.options({
+                params : {
+                    taskId: taskId
+                }
+            });
             try {
-                var res = HTTP.call("GET", activitiUrl + 'form/form-data', options);
+                var res = HTTP.call("GET", Bpm.activitiUrl + 'form/form-data', options);
                 if (res.statusCode >= 200 && res.statusCode < 300) {
                     var result = JSON.parse(res.content);
                     return result;
@@ -58,19 +66,21 @@ Meteor.startup(function () {
             }
         },
         complete: function(taskId, properties) {
-            options.headers = {
-                "Content-Type": "application/json"
-            };
-            options.params = {
-                taskId: taskId
-            };
-            options.data = {
-                taskId: parseInt(taskId),
-                properties: properties
-            }
-            log.info(options.data);
+            var options = Bpm.options({
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                params: {
+                    taskId: taskId
+                },
+                data: {
+                    taskId: parseInt(taskId),
+                    properties: properties
+                }
+              });
+            //log.info(options.data);
             try {
-                var res = HTTP.call("POST", activitiUrl + 'form/form-data', options);
+                var res = HTTP.call("POST", Bpm.activitiUrl + 'form/form-data', options);
                 if (res.statusCode >= 200 && res.statusCode < 300) {
                     return { statusCode: res.statusCode};
                 } else {

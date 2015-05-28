@@ -1,4 +1,4 @@
-log.info("app starting");
+log.info("Bpm application started");
 
 Template.main.rendered = function() {
     $('.procdeflist').hide();
@@ -34,7 +34,8 @@ Meteor.startup(function () {
         });
         
         $(document).on('keydown', function (evt) {
-            //console.log(evt.keyCode);
+            /*log.info(evt.keyCode);
+            log.info(evt.target);*/
             if (evt.target != document.body) return;
             switch(evt.keyCode) {
                 case 82: $('.refresh').click(); return; // r
