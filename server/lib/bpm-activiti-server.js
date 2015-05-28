@@ -5,6 +5,7 @@ Bpm = {
     user: 'kermit',
     password: 'kermit',
     options: function(options) {
+        if (!options) options = {};
         options.auth = this.user + ':' + this.password;
         return options;
     }
@@ -18,7 +19,7 @@ Meteor.startup(function () {
             var res = HTTP.call("PUT", Bpm.activitiUrl + 'runtime/process-instances/' + processInstanceId, Bpm.options());
             var content = JSON.parse(res.content);
             
-            console.log("Start process instance response: " + JSON.stringify(content));
+            log.info("Start process instance response: " + JSON.stringify(content));
             
             return content;
         },
@@ -30,7 +31,7 @@ Meteor.startup(function () {
             var res = HTTP.call("GET", Bpm.activitiUrl + 'repository/process-definitions', Bpm.options());
             var content = JSON.parse(res.content);
             
-//            console.log("List of startable process definitions: " + JSON.stringify(content));
+//            log.info("List of startable process definitions: " + JSON.stringify(content));
             
             return content;
         },
@@ -78,7 +79,6 @@ Meteor.startup(function () {
                     properties: properties
                 }
               });
-            //log.info(options.data);
             try {
                 var res = HTTP.call("POST", Bpm.activitiUrl + 'form/form-data', options);
                 if (res.statusCode >= 200 && res.statusCode < 300) {
