@@ -4,7 +4,7 @@ Template.main.events({
         return false;
     },
     'keydown body': function(evt){
-        console.log(evt);
+        //console.log(evt);
     }
 });
 

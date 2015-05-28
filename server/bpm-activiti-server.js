@@ -42,7 +42,7 @@ Meteor.startup(function () {
                 taskId: parseInt(taskId),
                 properties: properties
             }
-            console.log(JSON.stringify(options.data));
+            //console.log(JSON.stringify(options.data));
             try {
                 var res = HTTP.call("POST", activitiUrl + 'form/form-data', options);
                 if (res.statusCode >= 200 && res.statusCode < 300) {
