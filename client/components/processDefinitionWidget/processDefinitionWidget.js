@@ -10,9 +10,9 @@ Template.processDefinitionWidget.events({
         this.hide();
     },
     'click #send': function() {
-        console.log('rrr:' + $('#formData').val());
-        if ($('#formData').val() != '') {
-            var id = $('#formData').val();
+        log.info('start data: %s',  $('#startData').val());
+        if ($('#startData').val() != '') {
+            var id = $('#startData').val();
             
             Bpm.startProcessInstance(id);
         }

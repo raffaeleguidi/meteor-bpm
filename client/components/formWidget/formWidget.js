@@ -33,10 +33,12 @@ Template.formWidget.events({
         evt.preventDefault();
         Bpm.complete(Session.get("formData").taskId, $('.formData'), function(err, res){
             if (err) {
-                alert(err.message);
+                    log.error(err.message);
+                    alert('error completing task');
             } else {
                 if (res.error) {
-                    alert(res.error);
+                    alert('error completing task');
+                    log.error(res.error);
                 } else {
                     Bpm.refreshTaskList();
                 }

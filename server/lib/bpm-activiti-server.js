@@ -68,17 +68,17 @@ Meteor.startup(function () {
                 taskId: parseInt(taskId),
                 properties: properties
             }
-            //console.log(JSON.stringify(options.data));
+            log.info(options.data);
             try {
                 var res = HTTP.call("POST", activitiUrl + 'form/form-data', options);
                 if (res.statusCode >= 200 && res.statusCode < 300) {
                     return { statusCode: res.statusCode};
                 } else {
-                    console.log('form/form-data returned %d', res.statusCode)
+                    log.warn('form/form-data returned %s', res.statusCode)
                     return { error: 'HTTP_' + res.statusCode, statusCode: res.statusCode }
                 }
             } catch (ex) {
-                console.log('form/form-data returned exception %s', ex)
+                log.error('form/form-data returned exception %s', ex)
                 return { error: ex.message }
             }
         }

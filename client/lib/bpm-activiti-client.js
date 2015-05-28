@@ -22,7 +22,7 @@ Template.registerHelper("inputType", function() {
                                         return Template["input_" + this.data.jsonType];
                                 }
                             } catch(ex) {
-                                console.log(ex.message);
+                                log.error(ex.message);
                             }
                             //console.log(this);
                             return Template.input_json;
@@ -45,16 +45,16 @@ Bpm = {
     startProcessInstance: function() {
         Meteor.call("startProcessInstance", function(err, res) {
             if (err) {
-                console.log("errore: %s" , err.message);
+                log.error("errore: %s" , err.message);
             } else {
-                console.log("starting instance of procDef " + JSON.stringify(res));
+                log.info("starting instance of procDef " + JSON.stringify(res));
             }
         });        
     },
     refreshProcessDefinitions: function() {
         Meteor.call("refreshProcessDefinitions", function(err, res) {
             if (err) {
-                console.log("errore: %s" , err.message);
+                log.error("errore: %s" , err.message);
             } else {
 //                console.log("setting procDef " + JSON.stringify(res));
                 Session.set('processDefinitions', res.data);
@@ -64,7 +64,7 @@ Bpm = {
     refreshTaskList: function() {
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
             if (err) {
-                console.log("errore: %s" , err.message);
+                log.error("errore: %s" , err.message);
             } else {
                 Session.set('taskList', res);
                 Session.set('pages', calculatePages(res));
@@ -75,7 +75,7 @@ Bpm = {
     formData: function(taskId) {
         Meteor.call("formData", taskId, function(err, res) {
             if (err) {
-              console.log("errore: %s" , err.message);
+              log.error("errore: %s" , err.message);
             } else {
               Session.set('formData', res);
             }
