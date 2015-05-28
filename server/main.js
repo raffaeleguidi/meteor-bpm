@@ -1,3 +1,3 @@
 Meteor.startup(function () {
-    console.log("main.js");
+    log.info("main.js");
 });

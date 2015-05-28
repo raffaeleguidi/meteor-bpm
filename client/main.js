@@ -1,3 +1,5 @@
+log.info("app starting");
+
 Template.main.events({
     'click .page-title': function () {
         reset();
@@ -9,7 +11,6 @@ Template.main.events({
 });
 
 Router.configure({layoutTemplate: 'main'});
-/*Router.route('/', {name: 'main'});*/
 
 Meteor.startup(function () {
     Bpm.refreshTaskList();

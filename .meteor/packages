@@ -11,3 +11,4 @@ http
 materialize:materialize
 nimble:restivus
 iron:router
+infinitedg:winston

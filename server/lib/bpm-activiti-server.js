@@ -1,8 +1,10 @@
+log.info('Bpm object initializing');
+
 var activitiUrl = 'http://activiti:8080/activiti-rest/service/';
 var options = { auth: 'kermit:kermit', proxy: null };
 
 Meteor.startup(function () {
-    console.log("bpm.js");
+    log.info("bpm.js");
     Meteor.methods({
         refreshTaskList: function (start, size) {
             options.params = {
