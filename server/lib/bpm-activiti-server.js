@@ -39,7 +39,7 @@ Meteor.startup(function () {
             var content = JSON.parse(res.content);
             return content;
         },
-        formData: function(taskId) {
+        getFormData: function(taskId) {
             options.params = {
                 taskId: taskId
             };

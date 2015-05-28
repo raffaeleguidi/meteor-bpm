@@ -72,8 +72,8 @@ Bpm = {
             }
         });
     },
-    formData: function(taskId) {
-        Meteor.call("formData", taskId, function(err, res) {
+    getFormData: function(taskId) {
+        Meteor.call("getFormData", taskId, function(err, res) {
             if (err) {
               log.error("errore: %s" , err.message);
             } else {
