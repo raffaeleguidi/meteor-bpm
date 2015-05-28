@@ -1,8 +1,10 @@
-Template.body.rendered = function() {
+log.info("app starting");
+
+Template.main.rendered = function() {
     $('.procdeflist').hide();
 }
 
-Template.body.events({
+Template.main.events({
     'click .refresh': function (evt) {
         Bpm.reset();
     },
@@ -16,9 +18,11 @@ Template.body.events({
         return false;
     },
     'keydown body': function(evt){
-        console.log(evt);
+        //console.log(evt);
     }
 });
+
+Router.configure({layoutTemplate: 'main'});
 
 Meteor.startup(function () {
     Bpm.refreshTaskList();
@@ -31,7 +35,7 @@ Meteor.startup(function () {
         
         $(document).on('keydown', function (evt) {
             //console.log(evt.keyCode);
-            //if (evt.target != document.body) return;
+            if (evt.target != document.body) return;
             switch(evt.keyCode) {
                 case 82: $('.refresh').click(); return; // r
                 case 67: return; // c

@@ -1,3 +1,5 @@
+log.info('Bpm object initializing');
+
 var activitiUrl = 'http://activiti:8080/activiti-rest/service/';
 var options = { auth: 'kermit:kermit', proxy: null };
 
@@ -5,7 +7,7 @@ var options = { auth: 'kermit:kermit', proxy: null };
 var user     = 'kermit';
 
 Meteor.startup(function () {
-    console.log("bpm.js");
+    log.info("bpm.js");
     Meteor.methods({
         startProcessInstance: function(processInstanceId) {
         //PUT runtime/process-instances/{processInstanceId}
@@ -66,7 +68,7 @@ Meteor.startup(function () {
                 taskId: parseInt(taskId),
                 properties: properties
             }
-            console.log(JSON.stringify(options.data));
+            //console.log(JSON.stringify(options.data));
             try {
                 var res = HTTP.call("POST", activitiUrl + 'form/form-data', options);
                 if (res.statusCode >= 200 && res.statusCode < 300) {

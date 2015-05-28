@@ -1,3 +1,5 @@
+log.info('Bpm object initializing');
+
 Template.registerHelper("lastUpdate", function () {
     return Session.get('lastUpdate');
 });

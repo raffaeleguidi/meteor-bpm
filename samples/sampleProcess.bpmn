@@ -21,23 +21,75 @@
         <activiti:formProperty id="testString" name="Look the test string" type="string" expression="${testString}" writable="false"></activiti:formProperty>
         <activiti:formProperty id="testDate" name="Test date again" type="date" default="${testDate}" datePattern="yyyy-MM-dd"></activiti:formProperty>
         <activiti:formProperty id="testLong" name="This is a long" type="long" required="true"></activiti:formProperty>
+        <activiti:formProperty id="testCustomType_json" name="The same json again" type="string" default="${testCustomType_json}"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow3" sourceRef="secondStep" targetRef="scripttask1"></sequenceFlow>
     <scriptTask id="scripttask1" name="Local script task" scriptFormat="javascript" activiti:autoStoreVariables="false">
       <script>var tmp = execution.getVariable('testString');
-execution.setVariable("testScriptOutput", 'Hi, this is js answering to ' + tmp);</script>
+execution.setVariable("testScriptOutput", 'Hi, this is js answering to ' + tmp);
+</script>
     </scriptTask>
     <sequenceFlow id="flow4" sourceRef="scripttask1" targetRef="scripttask2"></sequenceFlow>
     <userTask id="afterTheScript" name="Check script result" activiti:assignee="${initiator}">
       <extensionElements>
         <activiti:formProperty id="testScriptOutput" name="Output of the script" type="string" default="${testScriptOutput}"></activiti:formProperty>
-        <activiti:formProperty id="testHttpOutput" name="Http get result" type="string" default="${testHttpOutput}"></activiti:formProperty>
+        <activiti:formProperty id="another_json" name="Http get result" type="string" default="${testHttpOutput_json}"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow5" sourceRef="afterTheScript" targetRef="endevent1"></sequenceFlow>
     <scriptTask id="scripttask2" name="Script with http get" scriptFormat="javascript" activiti:autoStoreVariables="false">
-      <script>execution.setVariable("testHttpOutput", "");</script>
+      <script>
+var url = 'http://meteor:3000/api/test';
+
+var response = httpGet(url).data;
+execution.setVariable("testHttpOutput_json", response);
+
+function httpGet(theUrl){
+    var con = new java.net.URL(theUrl).openConnection();
+    con.requestMethod = "GET";
+ 
+    return asResponse(con);
+}
+ 
+function httpPost(theUrl, data, contentType){
+    contentType = contentType || "application/json";
+    var con = new java.net.URL(theUrl).openConnection();
+ 
+    con.requestMethod = "POST";
+    con.setRequestProperty("Content-Type", contentType);
+ 
+    // Send post request
+    con.doOutput=true;
+    write(con.outputStream, data);
+ 
+    return asResponse(con);
+}
+ 
+function asResponse(con){
+    var d = read(con.inputStream);
+ 
+    return {data : d, statusCode : con.responseCode};
+}
+ 
+function write(outputStream, data){
+    var wr = new java.io.DataOutputStream(outputStream);
+    wr.writeBytes(data);
+    wr.flush();
+    wr.close();
+}
+ 
+function read(inputStream){
+    var inReader = new java.io.BufferedReader(new java.io.InputStreamReader(inputStream));
+    var inputLine;
+    var response = new java.lang.StringBuffer();
+ 
+    while ((inputLine = inReader.readLine()) != null) {
+           response.append(inputLine);
+    }
+    inReader.close();
+    return response.toString();
+}</script>
     </scriptTask>
     <sequenceFlow id="flow6" sourceRef="scripttask2" targetRef="afterTheScript"></sequenceFlow>
   </process>
