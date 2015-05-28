@@ -10,6 +10,7 @@
       <extensionElements>
         <activiti:formProperty id="testString" name="This is a test string" type="string" default="${testString}"></activiti:formProperty>
         <activiti:formProperty id="testDate" name="This is a date" type="date" datePattern="yyyy-MM-dd"></activiti:formProperty>
+        <activiti:formProperty id="testCustomType_json" name="This is a Json property" type="string" default="{&quot;jsonType&quot;: &quot;weird&quot;, &quot;data&quot;: &quot;hello&quot;}"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <endEvent id="endevent1" name="End"></endEvent>
@@ -36,72 +37,7 @@ execution.setVariable("testScriptOutput", 'Hi, this is js answering to ' + tmp);
     </userTask>
     <sequenceFlow id="flow5" sourceRef="afterTheScript" targetRef="endevent1"></sequenceFlow>
     <scriptTask id="scripttask2" name="Script with http get" scriptFormat="javascript" activiti:autoStoreVariables="false">
-      <script>var url = 'https://raw.githubusercontent.com/raffaeleguidi/meteor-bpm/master/README.md';
-var response = httpGet(url).data;
-execution.setVariable("testHttpOutput", response);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function httpGet(theUrl){
-    var con = new java.net.URL(theUrl).openConnection();
-    con.requestMethod = "GET";
- 
-    return asResponse(con);
-}
- 
-function httpPost(theUrl, data, contentType){
-    contentType = contentType || "application/json";
-    var con = new java.net.URL(theUrl).openConnection();
- 
-    con.requestMethod = "POST";
-    con.setRequestProperty("Content-Type", contentType);
- 
-    // Send post request
-    con.doOutput=true;
-    write(con.outputStream, data);
- 
-    return asResponse(con);
-}
- 
-function asResponse(con){
-    var d = read(con.inputStream);
- 
-    return {data : d, statusCode : con.responseCode};
-}
- 
-function write(outputStream, data){
-    var wr = new java.io.DataOutputStream(outputStream);
-    wr.writeBytes(data);
-    wr.flush();
-    wr.close();
-}
- 
-function read(inputStream){
-    var inReader = new java.io.BufferedReader(new java.io.InputStreamReader(inputStream));
-    var inputLine;
-    var response = new java.lang.StringBuffer();
- 
-    while ((inputLine = inReader.readLine()) != null) {
-           response.append(inputLine);
-    }
-    inReader.close();
-    return response.toString();
-}</script>
+      <script>execution.setVariable("testHttpOutput", "");</script>
     </scriptTask>
     <sequenceFlow id="flow6" sourceRef="scripttask2" targetRef="afterTheScript"></sequenceFlow>
   </process>

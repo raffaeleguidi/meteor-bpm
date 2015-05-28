@@ -15,7 +15,7 @@
                     <ul>
                     {{#each formData.formProperties}}
                         <li><label>{{name}}</label>&nbsp;
-                            {{> inputDisplay}}
+                            {{> inputType}}
                         </li>
                     {{/each}}
                     </ul>
@@ -28,44 +28,4 @@
         </p>
     </div>
     {{/if}}
-</template>
-
-<template name="input_string">
-    {{#if writable}}
-    <input placeholder="Type in a {{type}} for &laquo;{{name}}&raquo;" class="formData {{type}}" type="text" id="formData_{{id}}" data-property-id="{{id}}" value="{{value}}"/>
-    {{else}}
-    <div class="section">
-        <i class="disabled">{{#if value}}{{value}}{{else}}{ empty }{{/if}}</i>
-        <hr />
-    </div>
-    {{/if}}
-</template>
-
-<template name="input_date">
-    <div class="section">
-        {{#if writable}}
-        <input placeholder="Pick a {{type}} for &laquo;{{name}}&raquo;"  style="border: 0px; width:100%" class="formData datepicker {{type}}" id="formData_{{id}}" data-property-id="{{id}}" value="{{value}}"/>
-        {{else}}
-        <i class="disabled">{{#if value}}{{value}}{{else}}{ empty }{{/if}}</i>
-        {{/if}}
-        <hr />
-    </div>
-</template>
-
-<template name="input_enum">
-    <div class="section" style="width: 100%">
-        <select class="formData {{type}} browser-default" id="formData_{{id}}" data-property-id="{{id}}" >
-            <option value="" disabled selected>Choose your option</option>
-            {{#each enumValues}}
-                <option value="{{id}}">{{name}}</option>
-            {{/each}}
-        </select>
-    </div>
-</template>
-
-<template name="input_other">
-    <div class="section disabled">
-        {{type}}: {{#if value}}{{value}}{{else}}{ empty }{{/if}}
-        <hr />
-    </div>
 </template>

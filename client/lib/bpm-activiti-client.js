@@ -1,26 +1,38 @@
-function calculatePages(tasks) {
-    var pages = new Array();
-    var last = tasks.total / Bpm.size;
-    for(n=0; n < last; n++) {
-        pages.push(n+1);
-    }
-    return pages;
-}
+Template.registerHelper("lastUpdate", function () {
+    return Session.get('lastUpdate');
+});
+Template.registerHelper("taskList", function() {
+    return Session.get('taskList');
+});
+Template.registerHelper("serialize", function(obj) {
+    return JSON.stringify(obj);
+});
 
-function normalizeProperties(formElements) {
-    return _.map(formElements, function(elem){
-        var value = $(elem).val();
-        if ($(elem).hasClass('date')) {
-            console.log('click .complete: convert to a real date! the format is into the process definition');
-            value = '2014-12-31';
-        }
-        console.log(new Date());
-        return {
-            id: $(elem).attr("data-property-id"),
-            value: value
-        }
-    });
-}
+Template.registerHelper("inputType", function() {
+    //console.log(this);
+    switch(this.type){
+        case 'string':  if (this.id.indexOf('_json')>=0) {
+                            this.type = 'json';
+                            try {
+                                this.data = JSON.parse(this.value);
+                                if (this.data.jsonType) {
+                                    if (Template["input_" + this.data.jsonType])
+                                        return Template["input_" + this.data.jsonType];
+                                }
+                            } catch(ex) {
+                                console.log(ex.message);
+                            }
+                            //console.log(this);
+                            return Template.input_json;
+                        } else {
+                            return Template.input_string;
+                        };
+        case 'long':  return Template.input_string;
+        case 'date':  return Template.input_date;
+        case 'enum':  return Template.input_enum;
+    }
+    return Template.input_other;
+});
 
 Bpm = {
     activitiHost: 'activiti',
@@ -57,8 +69,27 @@ Bpm = {
         Bpm.start = 0;
         Session.set("currentPage", 1);
         this.refreshTaskList();
+        Session.set("currentTask", undefined);
         Session.set("formData", undefined);
     }
 
 }
 
+function calculatePages(tasks) {
+    var pages = new Array();
+    var last = tasks.total / Bpm.size;
+    for(n=0; n < last; n++) {
+        pages.push(n+1);
+    }
+    return pages;
+}
+
+function normalizeProperties(formElements) {
+    return _.map(formElements, function(elem){
+        var value = $(elem).val();
+        return {
+            id: $(elem).attr("data-property-id"),
+            value: value
+        }
+    });
+}

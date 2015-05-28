@@ -8,8 +8,8 @@ Template.input_date.rendered = function(){
 
 Template.input_enum.rendered = function(){
     $('.enum').change(function(evt){
-        console.log($(evt.target).val());
-        console.log($(evt.target).find('option:selected'));
+        /*console.log($(evt.target).val());
+        console.log($(evt.target).find('option:selected'));*/
     });
 };
 
@@ -19,15 +19,6 @@ Template.formWidget.helpers({
     },
     currentTask: function() {
         return Session.get('currentTask');
-    },
-    inputDisplay: function() {
-        switch(this.type){
-            case 'string':  return Template.input_string;
-            case 'long':  return Template.input_string;
-            case 'date':  return Template.input_date;
-            case 'enum':  return Template.input_enum;
-        }
-        return Template.input_other;
     }
 });
 
@@ -53,5 +44,34 @@ Template.formWidget.events({
         });
         Bpm.reset();
         return false;
+    },
+    'change .weird': function (evt) {
+        console.log('change weird');
+        var field = $(evt.target).attr('data-field');
+        var ref = $(evt.target).attr('data-ref');
+        console.log(Session.get("formData").formProperties);
+        var prop = _.findWhere(
+                        Session.get("formData").formProperties,
+                        {id: field});
+        console.log('data field=%s', field);
+        console.log('data ref=%s', ref);
+        console.log("prop");
+        console.log(prop);
+        var inputHidden = $('#form_' + field);
+        var data = JSON.parse(inputHidden.val());
+        data[ref] = $(evt.target).val();
+        inputHidden.val(JSON.stringify(data));
+        console.log("data after");
+        console.log(data);
+        //Session.get("formData").formProperties[field].data[ref] = 'ciao';
+/*
+        var container = $('form_' + $(evt.target).attr('data-field'));
+        console.log("evt");
+        console.log(evt);
+        console.log("this");
+        console.log(this);
+        console.log("container");
+        console.log(container);
+*/
     }
 });
