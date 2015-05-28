@@ -1,4 +1,16 @@
+Template.body.rendered = function() {
+    $('.procdeflist').hide();
+}
+
 Template.body.events({
+    'click .refresh': function (evt) {
+        Bpm.reset();
+    },
+    'click .listProcDef': function (evt) {
+        Bpm.refreshProcessDefinitions();
+
+        $('.procdeflist').show();
+    },
     'click .page-title': function () {
         reset();
         return false;
@@ -10,7 +22,13 @@ Template.body.events({
 
 Meteor.startup(function () {
     Bpm.refreshTaskList();
+//    Bpm.refreshProcessDefinitions();
+    
     $( document ).ready(function() {
+        $('.collapsible').collapsible({
+          accordion : false 
+        });
+        
         $(document).on('keydown', function (evt) {
             //console.log(evt.keyCode);
             //if (evt.target != document.body) return;

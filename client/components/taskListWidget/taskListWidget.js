@@ -25,9 +25,6 @@ Template.tasklistWidget.helpers({
 });
 
 Template.tasklistWidget.events({
-    'click .refresh': function (evt) {
-        Bpm.reset();
-    },
     'click .claim': function () {
         console.log('claim');
         Session.set('currentTask', this);

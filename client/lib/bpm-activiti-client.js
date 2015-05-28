@@ -40,6 +40,25 @@ Bpm = {
     start: 0,
     size: 10,
 
+    startProcessInstance: function() {
+        Meteor.call("startProcessInstance", function(err, res) {
+            if (err) {
+                console.log("errore: %s" , err.message);
+            } else {
+                console.log("starting instance of procDef " + JSON.stringify(res));
+            }
+        });        
+    },
+    refreshProcessDefinitions: function() {
+        Meteor.call("refreshProcessDefinitions", function(err, res) {
+            if (err) {
+                console.log("errore: %s" , err.message);
+            } else {
+//                console.log("setting procDef " + JSON.stringify(res));
+                Session.set('processDefinitions', res.data);
+            }
+        });       
+    },
     refreshTaskList: function() {
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
             if (err) {

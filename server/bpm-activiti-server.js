@@ -1,9 +1,33 @@
 var activitiUrl = 'http://activiti:8080/activiti-rest/service/';
 var options = { auth: 'kermit:kermit', proxy: null };
 
+// REINGEGNERIZZATELO!
+var user     = 'kermit';
+
 Meteor.startup(function () {
     console.log("bpm.js");
     Meteor.methods({
+        startProcessInstance: function(processInstanceId) {
+        //PUT runtime/process-instances/{processInstanceId}
+            var res = HTTP.call("PUT", activitiUrl + 'runtime/process-instances/' + processInstanceId, options);
+            var content = JSON.parse(res.content);
+            
+            console.log("Start process instance response: " + JSON.stringify(content));
+            
+            return content;
+        },
+        refreshProcessDefinitions: function() {
+            //GET repository/process-definitions
+//            options.params = {
+//                startableByUser: user
+//            };
+            var res = HTTP.call("GET", activitiUrl + 'repository/process-definitions', options);
+            var content = JSON.parse(res.content);
+            
+//            console.log("List of startable process definitions: " + JSON.stringify(content));
+            
+            return content;
+        },
         refreshTaskList: function (start, size) {
             options.params = {
                 start: start ? start : 0,

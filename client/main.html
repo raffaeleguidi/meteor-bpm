@@ -26,8 +26,20 @@
                 <div class="col s12 l8">
                     {{> formWidget}}
                 </div>
+                
+                
             </div>
         </div>
     </div>
-
+    
+    <div class="procdeflist">
+        {{> processDefinitionWidget}}
+    </div>
+    
+    <div class="fixed-action-btn" style="bottom: 45px; right: 45px;">
+        <a class="btn-floating btn-large waves-effect waves-light right orange refresh"><i class="large mdi-navigation-refresh"></i></a>
+    </div>
+    <div class="fixed-action-btn" style="bottom: 45px; right: 105px;">
+        <a class="btn-floating btn-large waves-effect waves-light right red listProcDef"><i class="mdi-content-add"></i></a>
+    </div>
 </body>

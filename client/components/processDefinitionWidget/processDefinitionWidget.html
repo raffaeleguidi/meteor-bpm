@@ -1,0 +1,16 @@
+<template name="processDefinitionWidget">
+    <div align="right"><i class="mdi-navigation-close"></i>
+    </div>
+    <div class="section" style="width: 100%">
+        <select class="formData {{type}} browser-default" id="formData" data-property-id="{{id}}">
+            <option value="" disabled selected>Process Definitions</option>
+            {{# each processDefinitionList}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div id="inputForm"></div>
+    <div id="send">
+        <a class="btn waves-effect waves-light right"><i class="mdi-content-send"></i></a>
+    </div>
+</template>

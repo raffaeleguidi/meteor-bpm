@@ -16,3 +16,19 @@ h4 { color: teal }
     color: gray;
     font-style: italic;
 }
+
+
+.procdeflist {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    bottom: 0;
+    box-shadow: 0 0 8px rgba(0,0,0,.18),0 8px 16px rgba(0,0,0,.36);
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+
+    background: white;
+    left: 50px;
+    width: 480px;
+}

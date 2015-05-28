@@ -1,0 +1,27 @@
+
+<template name="startProcessWidget">
+    {{#if formData}}
+    <div class="row z-depth-1" style="padding: 20px">
+        <p>
+            <h3>{{currentTask.name}}</h3>
+            <hr />
+            <h5 class="right">Task #{{formData.taskId}}</h5>
+            <br clear="both" />
+            {{#if formData.error}}
+                <h4>Error</h4>
+                <blockquote>{{formData.error}}</blockquote>
+            {{else}}
+                <form>
+                    <ul>
+                    {{#each formData.formProperties}}
+                        <li><label>{{name}}</label>&nbsp;
+                            {{> inputType}}
+                        </li>
+                    {{/each}}
+                    </ul>
+                </form>
+            {{/if}}
+        </p>
+    </div>
+    {{/if}}
+</template>
