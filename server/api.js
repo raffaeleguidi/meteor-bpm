@@ -5,7 +5,7 @@ Restivus.configure({
 
 Restivus.addRoute('test', {authRequired: false}, {
     get: function () {
-        console.log("I'm getting a test call");
+        log.info("I'm getting a test call");
         return { jsonType: 'weird', data: 'response from api call'};
     }
 });

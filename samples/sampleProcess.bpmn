@@ -11,6 +11,11 @@
         <activiti:formProperty id="testString" name="This is a test string" type="string" default="${testString}"></activiti:formProperty>
         <activiti:formProperty id="testDate" name="This is a date" type="date" datePattern="yyyy-MM-dd"></activiti:formProperty>
         <activiti:formProperty id="testCustomType_json" name="This is a Json property" type="string" default="{&quot;jsonType&quot;: &quot;weird&quot;, &quot;data&quot;: &quot;hello&quot;}"></activiti:formProperty>
+        <activiti:formProperty id="testEnum" name="Pick from the list" type="enum">
+          <activiti:value id="1" name="First item"></activiti:value>
+          <activiti:value id="2" name="Third Item"></activiti:value>
+          <activiti:value id="3" name="Third Item"></activiti:value>
+        </activiti:formProperty>
       </extensionElements>
     </userTask>
     <endEvent id="endevent1" name="End"></endEvent>

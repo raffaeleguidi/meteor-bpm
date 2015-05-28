@@ -26,7 +26,7 @@ Template.tasklistWidget.helpers({
 
 Template.tasklistWidget.events({
     'click .claim': function () {
-        console.log('claim');
+        log.info('claim');
         Session.set('currentTask', this);
         Bpm.formData(this.id);
         window.location.hash = 'form';

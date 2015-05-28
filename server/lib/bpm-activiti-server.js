@@ -49,11 +49,11 @@ Meteor.startup(function () {
                     var result = JSON.parse(res.content);
                     return result;
                 } else {
-                    console.log('form/form-data returned %d', res.statusCode)
+                    log.warn('form/form-data returned %d', res.statusCode)
                     return {error: 'HTTP_' + res.statusCode, taskId: taskId, formProperties: []}
                 }
             } catch (ex) {
-                console.log('form/form-data returned exception %d', ex.message)
+                log.error('form/form-data returned exception %d', ex.message)
                 return {error: ex.message, taskId: taskId, formProperties: []}
             }
         },
