@@ -49,20 +49,20 @@ Template.formWidget.events({
         console.log('change weird');
         var field = $(evt.target).attr('data-field');
         var ref = $(evt.target).attr('data-ref');
-        console.log(Session.get("formData").formProperties);
+        /*console.log(Session.get("formData").formProperties);*/
         var prop = _.findWhere(
                         Session.get("formData").formProperties,
                         {id: field});
-        console.log('data field=%s', field);
+        /*console.log('data field=%s', field);
         console.log('data ref=%s', ref);
         console.log("prop");
-        console.log(prop);
+        console.log(prop);*/
         var inputHidden = $('#form_' + field);
         var data = JSON.parse(inputHidden.val());
         data[ref] = $(evt.target).val();
         inputHidden.val(JSON.stringify(data));
-        console.log("data after");
-        console.log(data);
+        /*console.log("data after");
+        console.log(data);*/
         //Session.get("formData").formProperties[field].data[ref] = 'ciao';
 /*
         var container = $('form_' + $(evt.target).attr('data-field'));
