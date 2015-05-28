@@ -40,7 +40,7 @@ Meteor.startup(function () {
                 case 82: $('.refresh').click(); return; // r
                 case 67: return; // c
                 case 13: if (!Session.get("currentTask")) {
-                            $('.claim').first().click();
+                            $('.open').first().click();
                          } else $('.complete').click(); return; // enter key
                 case 37: return; // left key
                 case 39: return; // right key

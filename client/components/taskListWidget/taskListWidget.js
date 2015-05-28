@@ -25,8 +25,8 @@ Template.tasklistWidget.helpers({
 });
 
 Template.tasklistWidget.events({
-    'click .claim': function () {
-        log.info('claim');
+    'click .open': function () {
+        log.info('open');
         Session.set('currentTask', this);
         Bpm.formData(this.id);
         window.location.hash = 'form';
