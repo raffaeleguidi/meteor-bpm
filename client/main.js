@@ -26,8 +26,17 @@ Router.configure({layoutTemplate: 'main'});
 
 Meteor.startup(function () {
     Bpm.refreshTaskList();
+    Bpm.refreshInbox();
 //    Bpm.refreshProcessDefinitions();
     
+    var interval = 5000;
+    setInterval (function() {
+        if (new Date().getTime() - Session.get("taskList").lastUpdate.getTime() > interval)
+        var currentPage = Session.get("taskList").currentPage;
+        Bpm.refreshTaskList(currentPage);
+        Bpm.refreshInbox();
+    }, interval)
+
     $( document ).ready(function() {
         $('.collapsible').collapsible({
           accordion : false 

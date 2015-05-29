@@ -1,10 +1,21 @@
 log.info('Bpm object initializing');
 
+Template.registerHelper('formatDate', function(date) {
+  return moment(date).format('YYYY-MM-DD');
+});
+
+Template.registerHelper('formatHour', function(date) {
+  return moment(date).format('YYYY-MM-DD HH:mm.ss');
+});
+
 Template.registerHelper("taskList", function() {
     return Session.get('taskList');
 });
 Template.registerHelper("inbox", function() {
     return Session.get('inbox');
+});
+Template.registerHelper("inboxCount", function() {
+    return Session.get('inboxCount');
 });
 Template.registerHelper("serialize", function(obj) {
     return JSON.stringify(obj);
@@ -79,20 +90,23 @@ Bpm = {
         });
     },
     refreshInbox: function(page) {
+//        log.info('refreshInbox');
         if (page) {
             this.start = page -1 * this.size;
         }
-        Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
+        Meteor.call("refreshInbox", this.start, this.size, function(err, res) {
             if (err) {
                 log.error("errore: %s" , err.message);
             } else {
+//                log.info('refreshInbox received');
                 var inbox = {
                     tasks : res,
                     pages: calculatePages(res),
                     currentPage: page ? page : 1,
                     lastUpdate: new Date()
                 }
-                Session.set('inbox', res);
+//                log.info(res);
+                Session.set('inbox', inbox);
             }
         });
     },

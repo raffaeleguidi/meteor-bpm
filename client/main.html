@@ -3,7 +3,14 @@
         <header>
             <nav class="top-nav">
                 <div class="container">
-                    <div class="nav-wrapper"><a class="mytitle page-title" href="/">BPM-Application</a></div>
+                    <div class="nav-wrapper"><a class="mytitle page-title" href="/">BPM-Application</a>
+                        <ul id="nav-mobile" class="right hide-on-med-and-down">
+                            <li><a href="#">Start process</a></li>
+                            <li><a href="#">Inbox ({{inbox.tasks.total}}/{{taskList.tasks.total}})</a></li>
+                            <li><a href="#">Logout</a></li>
+                            <li><a href="#">Help</a></li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
         </header>
@@ -11,9 +18,9 @@
             <div class="section">
                 <div class="row">
                     <div class="col s12 l12">
-                    <h3>Task list</h3>
+                    <h3>Inbox</h3>
                     <p>
-                        {{#if taskList.lastUpdate}}As of {{taskList.lastUpdate}} y{{else}}Y{{/if}}ou have {{#if taskList.tasks.total}}{{taskList.tasks.total}}{{else}}no{{/if}} tasks available.
+                        {{#if taskList.lastUpdate}}As of {{formatHour taskList.lastUpdate}} y{{else}}Y{{/if}}ou have {{#if taskList.tasks.total}}{{taskList.tasks.total}}{{else}}no{{/if}} tasks available and {{inbox.tasks.total}} assigned.
                     </p>
                     </div>
                     <div class="col s12 l4">
@@ -36,7 +43,7 @@
         <div class="fixed-action-btn" style="bottom: 45px; right: 45px;">
             <a class="btn-floating btn-large waves-effect waves-light right orange refresh"><i class="large mdi-navigation-refresh"></i></a>
         </div>
-        <div class="fixed-action-btn" style="bottom: 45px; right: 105px;">
+        <div class="fixed-action-btn" style="bottom: 45px; right: 110px;">
             <a class="btn-floating btn-large waves-effect waves-light right red listProcDef"><i class="mdi-content-add"></i></a>
         </div>
     </body>

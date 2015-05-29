@@ -29,6 +29,7 @@ Template.tasklistWidget.events({
         log.info('open');
         Session.set('currentTask', this);
         Bpm.getFormData(this.id);
+        $('body').focus();
         window.location.hash = 'form';
     },
     'click .page': function (evt) {

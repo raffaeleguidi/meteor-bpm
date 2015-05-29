@@ -41,6 +41,7 @@ Template.formWidget.events({
                     log.error(res.error);
                 } else {
                     Bpm.refreshTaskList();
+                    Bpm.refreshInbox();
                 }
             }
         });
