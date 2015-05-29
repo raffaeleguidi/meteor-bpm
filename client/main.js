@@ -29,6 +29,8 @@ Meteor.startup(function () {
     Bpm.refreshInbox();
 //    Bpm.refreshProcessDefinitions();
     
+    // should implement an event handler, instead
+    // http://www.activiti.org/userguide/#eventDispatcher
     var interval = 5000;
     setInterval (function() {
         if (new Date().getTime() - Session.get("taskList").lastUpdate.getTime() > interval)
