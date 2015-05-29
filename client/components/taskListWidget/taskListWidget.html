@@ -1,5 +1,5 @@
 <template name="tasklistWidget">
-    {{#if taskList.total}}
+    {{#if taskList.tasks.total}}
         <table class="striped bordered">
             <thead>
                 <th>Task #</th>
@@ -7,7 +7,7 @@
                 <th>Assignee</th>
             </thead>
             <tbody>
-                {{#each taskList.data}}
+                {{#each taskList.tasks.data}}
                 <tr class="open">
                     <td>{{id}}</td>
                     <td><a href="#form">{{name}}</a></td>

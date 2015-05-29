@@ -1,17 +1,16 @@
 log.info('Bpm object initializing');
 
-Template.registerHelper("lastUpdate", function () {
-    return Session.get('lastUpdate');
-});
 Template.registerHelper("taskList", function() {
     return Session.get('taskList');
+});
+Template.registerHelper("inbox", function() {
+    return Session.get('inbox');
 });
 Template.registerHelper("serialize", function(obj) {
     return JSON.stringify(obj);
 });
 
 Template.registerHelper("inputType", function() {
-    //console.log(this);
     switch(this.type){
         case 'string':  if (this.id.indexOf('_json')>=0) {
                             this.type = 'json';
@@ -61,14 +60,39 @@ Bpm = {
             }
         });       
     },
-    refreshTaskList: function() {
+    refreshTaskList: function(page) {
+        if (page) {
+            this.start = page -1 * this.size;
+        }
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
             if (err) {
                 log.error("errore: %s" , err.message);
             } else {
-                Session.set('taskList', res);
-                Session.set('pages', calculatePages(res));
-                Session.set('lastUpdate', new Date());
+                var taskList = {
+                    tasks : res,
+                    pages: calculatePages(res),
+                    currentPage: page ? page : 1,
+                    lastUpdate: new Date()
+                }
+                Session.set('taskList', taskList);
+            }
+        });
+    },
+    refreshInbox: function(page) {
+        if (page) {
+            this.start = page -1 * this.size;
+        }
+        Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
+            if (err) {
+                log.error("errore: %s" , err.message);
+            } else {
+                var inbox = {
+                    tasks : res,
+                    pages: calculatePages(res),
+                    currentPage: page ? page : 1,
+                    lastUpdate: new Date()
+                }
+                Session.set('inbox', res);
             }
         });
     },
@@ -88,7 +112,6 @@ Bpm = {
     },
     reset: function(){
         Bpm.start = 0;
-        Session.set("currentPage", 1);
         this.refreshTaskList();
         Session.set("currentTask", undefined);
         Session.set("formData", undefined);

@@ -1,26 +1,26 @@
 Template.tasklistWidget.helpers({
     active: function(item) {
-        return Session.get('currentPage') ? Session.get('currentPage') == item : item == 1;
+        return Session.get('taskList').currentPage ? Session.get('taskList').currentPage == item : item == 1;
     },
     counter: function () {
-      return Session.get('taskList') ? Session.get('taskList').total : 0;
+      return Session.get('taskList') ? Session.get('taskList').tasks.total : 0;
     },
     taskSelected: function() {
         return Session.get('formData') != null && Session.get('formData') != undefined;
     },
     pages: function() {
-        return Session.get("pages");
+        return Session.get("taskList").pages;
     },
     currentPage: function() {
-        return Session.get('currentPage') ? Session.get('currentPage') : 1;
+        return Session.get('taskList') ? Session.get('taskList').currentPage : 1;
     },
     previousPage: function() {
-        var currentPage = parseInt(Session.get('currentPage') ? Session.get('currentPage') : 1);
+        var currentPage = parseInt(Session.get('taskList') ? Session.get('taskList').currentPage : 1);
         return currentPage > 1 ? currentPage -1 : 0;
     },
     nextPage: function() {
-        var currentPage = parseInt(Session.get('currentPage') ? Session.get('currentPage') : 1);
-        return currentPage < Session.get("pages").length ? currentPage + 1 : 0;
+        var currentPage = parseInt(Session.get('taskList') ? Session.get('taskList').currentPage : 1);
+        return currentPage < Session.get("taskList").pages.length ? currentPage + 1 : 0;
     }
 });
 
@@ -34,9 +34,7 @@ Template.tasklistWidget.events({
     'click .page': function (evt) {
         var dataAttr = $(evt.target).attr('data-page');
         if (dataAttr == 0) return false;
-        Bpm.start = ($(evt.target).attr('data-page')-1) * Bpm.size;
-        Bpm.refreshTaskList();
-        Session.set('currentPage', parseInt($(evt.target).attr('data-page')))
+        Bpm.refreshTaskList(parseInt($(evt.target).attr('data-page')));
     }
 });
 

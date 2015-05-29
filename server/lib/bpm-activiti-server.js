@@ -40,6 +40,20 @@ Meteor.startup(function () {
                 params: {
                     start: start ? start : 0,
                     size: size
+//                    ,
+//                    candidateUser: Bpm.user
+                }
+            });
+            var res = HTTP.call("GET", Bpm.activitiUrl + 'runtime/tasks', options);
+            var content = JSON.parse(res.content);
+            return content;
+        },
+        refreshInbox: function (start, size) {
+            var options = Bpm.options({
+                params: {
+                    start: start ? start : 0,
+                    size: size,
+                    assignee: Bpm.user
                 }
             });
             var res = HTTP.call("GET", Bpm.activitiUrl + 'runtime/tasks', options);

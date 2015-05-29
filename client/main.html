@@ -13,7 +13,7 @@
                     <div class="col s12 l12">
                     <h3>Task list</h3>
                     <p>
-                        {{#if lastUpdate}}As of {{lastUpdate}} y{{else}}Y{{/if}}ou have {{#if taskList.total}}{{taskList.total}}{{else}}no{{/if}} tasks available.
+                        {{#if taskList.lastUpdate}}As of {{taskList.lastUpdate}} y{{else}}Y{{/if}}ou have {{#if taskList.tasks.total}}{{taskList.tasks.total}}{{else}}no{{/if}} tasks available.
                     </p>
                     </div>
                     <div class="col s12 l4">
