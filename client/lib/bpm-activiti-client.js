@@ -8,6 +8,10 @@ Template.registerHelper('formatHour', function(date) {
   return moment(date).format('YYYY-MM-DD HH:mm.ss');
 });
 
+Template.registerHelper('loading', function(date) {
+    return parseInt(Session.get("pending")) > 0;
+});
+
 Template.registerHelper("taskList", function() {
     return Session.get('taskList');
 });
@@ -46,6 +50,18 @@ Template.registerHelper("inputType", function() {
     return Template.input_other;
 });
 
+function pendingPlusOne() {
+    if (!Session.get("pending")) Session.set("pending", 0);
+    // spinning wheel activates onl after 200 msecs
+    setTimeout(function() {
+        Session.set("pending", parseInt(Session.get("pending"))+1);
+    }, 200);
+}
+function pendingMinusOne() {
+    Session.set("pending", parseInt(Session.get("pending"))-1);
+}
+
+
 Bpm = {
     activitiHost: 'activiti',
     auth: 'kermit:kermit',
@@ -53,7 +69,9 @@ Bpm = {
     size: 10,
 
     startProcessInstance: function() {
+        pendingPlusOne();
         Meteor.call("startProcessInstance", function(err, res) {
+            pendingMinusOne();
             if (err) {
                 log.error("errore: %s" , err.message);
             } else {
@@ -62,7 +80,9 @@ Bpm = {
         });        
     },
     refreshProcessDefinitions: function() {
+        pendingPlusOne();
         Meteor.call("refreshProcessDefinitions", function(err, res) {
+            pendingMinusOne();
             if (err) {
                 log.error("errore: %s" , err.message);
             } else {
@@ -72,10 +92,12 @@ Bpm = {
         });       
     },
     refreshTaskList: function(page) {
+        pendingPlusOne();
         if (page) {
             this.start = page -1 * this.size;
         }
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
+            pendingMinusOne();
             if (err) {
                 log.error("errore: %s" , err.message);
             } else {
@@ -90,11 +112,12 @@ Bpm = {
         });
     },
     refreshInbox: function(page) {
-//        log.info('refreshInbox');
+        pendingPlusOne();
         if (page) {
             this.start = page -1 * this.size;
         }
         Meteor.call("refreshInbox", this.start, this.size, function(err, res) {
+            pendingMinusOne();
             if (err) {
                 log.error("errore: %s" , err.message);
             } else {
@@ -111,7 +134,9 @@ Bpm = {
         });
     },
     getFormData: function(taskId) {
+        pendingPlusOne();
         Meteor.call("getFormData", taskId, function(err, res) {
+            pendingMinusOne();
             if (err) {
               log.error("errore: %s" , err.message);
             } else {
@@ -120,7 +145,9 @@ Bpm = {
         });
     },
     complete: function(taskId, formElements, cb) {
+        pendingPlusOne();
         Meteor.call("complete", taskId, normalizeProperties(formElements), function(err, res) {
+            pendingMinusOne();
             cb(err, res);
         });
     },

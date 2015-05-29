@@ -32,3 +32,12 @@ h4 { color: teal }
     left: 50px;
     width: 480px;
 }
+
+.centerofthepage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    margin-top: auto;
+    margin-left: -25px;
+}
