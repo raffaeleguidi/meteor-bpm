@@ -1,7 +1,11 @@
 <template name="processDefinitionWidget">
     {{#if showStartBox}}
     <div class="row" style="right: 300px; background-color: white">
-        <div align="right" style="padding-right: 5px; background-color: #555;"><a class="closeStartBox" style="color: white" href=""><i class="mdi-navigation-close small"></i></a></div>
+
+        <div style="padding-left: 5px; padding-right: 5px; background-color: #555;">
+            <a class="right closeStartBox" style="color: white" href=""><i class="mdi-navigation-close small"></i></a>
+            <span style="color: white" href=""><i class="mdi-action-label small"></i></span>
+        </div>
         <div class="row" style="padding: 10px; min-height:350px">
             <div class="section" style="width: 100%">
                 <label>Pick a process definition</label>

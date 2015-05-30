@@ -5,7 +5,7 @@
                 <div class="container">
                     <div class="nav-wrapper"><a class="mytitle page-title" href="/">BPM-Application</a>
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
-                            <li><a href="#">Start process</a></li>
+                            <li><a href="#">{{#if loading}}Client busy{{/if}}</a></li>
                             <li><a href="#">Inbox ({{inbox.tasks.total}}/{{taskList.tasks.total}})</a></li>
                             <li><a href="#">Logout</a></li>
                             <li><a href="#">Help</a></li>
