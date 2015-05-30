@@ -49,7 +49,7 @@ Meteor.startup(function () {
             if (evt.target != document.body) return;
             switch(evt.keyCode) {
                 case 82: $('.refresh').click(); return; // r
-                case 67: return; // c
+                case 67: $('.listProcDef').click(); return; // c
                 case 13: if (!Session.get("currentTask")) {
                             $('.open').first().click();
                          } else $('.complete').click(); return; // enter key
