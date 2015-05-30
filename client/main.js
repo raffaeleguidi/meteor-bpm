@@ -34,8 +34,7 @@ Meteor.startup(function () {
     var interval = 5000;
     setInterval (function() {
         if (new Date().getTime() - Session.get("taskList").lastUpdate.getTime() > interval)
-        var currentPage = Session.get("taskList").currentPage;
-        Bpm.refreshTaskList(currentPage);
+        Bpm.refreshTaskList(Session.get("taskList").currentPage);
         Bpm.refreshInbox();
     }, interval);
 
