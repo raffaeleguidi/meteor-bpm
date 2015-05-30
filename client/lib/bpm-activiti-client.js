@@ -15,6 +15,9 @@ Template.registerHelper('loading', function(date) {
 Template.registerHelper("taskList", function() {
     return Session.get('taskList');
 });
+Template.registerHelper("showStartBox", function() {
+    return Session.get('showStartBox');
+});
 Template.registerHelper("inbox", function() {
     return Session.get('inbox');
 });

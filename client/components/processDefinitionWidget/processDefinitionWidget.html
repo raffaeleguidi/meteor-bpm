@@ -1,16 +1,21 @@
 <template name="processDefinitionWidget">
-    <div align="right" class="close"><i class="mdi-navigation-close"></i>
+    {{#if showStartBox}}
+    <div class="row" style="right: 300px; background-color: white">
+        <div align="right" style="padding-right: 5px; background-color: #555;"><a class="closeStartBox" style="color: white" href=""><i class="mdi-navigation-close small"></i></a></div>
+        <div class="row" style="padding: 10px; min-height:350px">
+            <div class="section" style="width: 100%">
+                <label>Pick a process definition</label>
+                <select class="startData {{type}} browser-default" id="startData" data-property-id="{{id}}">
+                    {{# each processDefinitionList}}
+                    <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div id="inputForm"></div>
+            <div id="send" style="position: absolute; bottom: 10px">
+                <a class="btn blue waves-effect waves-light"><i class="mdi-content-send right"></i>Start</a>
+            </div>
+        </div>
     </div>
-    <div class="section" style="width: 100%">
-        <select class="startData {{type}} browser-default" id="startData" data-property-id="{{id}}">
-            <option value="" disabled selected>Process Definitions</option>
-            {{# each processDefinitionList}}
-            <option value="{{id}}">{{name}}</option>
-            {{/each}}
-        </select>
-    </div>
-    <div id="inputForm"></div>
-    <div id="send">
-        <a class="btn waves-effect waves-light right"><i class="mdi-content-send"></i></a>
-    </div>
+    {{/if}}
 </template>

@@ -8,10 +8,9 @@ Template.main.events({
     'click .refresh': function (evt) {
         Bpm.reset();
     },
-    'click .listProcDef': function (evt) {
+    'click .create': function (evt) {
         Bpm.refreshProcessDefinitions();
-
-        $('.procdeflist').show();
+        Session.set("showStartBox", true);
     },
     'click .page-title': function () {
         reset();
@@ -49,7 +48,7 @@ Meteor.startup(function () {
             if (evt.target != document.body) return;
             switch(evt.keyCode) {
                 case 82: $('.refresh').click(); return; // r
-                case 67: $('.listProcDef').click(); return; // c
+                case 67: $('.create').click(); return; // c
                 case 13: if (!Session.get("currentTask")) {
                             $('.open').first().click();
                          } else $('.complete').click(); return; // enter key
