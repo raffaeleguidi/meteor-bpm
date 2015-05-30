@@ -55,7 +55,12 @@ Meteor.startup(function () {
 //            options.params = {
 //                startableByUser: user
 //            };
-            var res = HTTP.call("GET", Bpm.activitiUrl + 'repository/process-definitions', Bpm.options());
+            var options = Bpm.options({
+                params: {
+                    latest: true
+                }
+            });
+            var res = HTTP.call("GET", Bpm.activitiUrl + 'repository/process-definitions', options);
             var content = JSON.parse(res.content);
             
 //            log.info("List of startable process definitions: " + JSON.stringify(content));
