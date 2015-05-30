@@ -33,8 +33,8 @@ Template.tasklistWidget.events({
         window.location.hash = 'form';
     },
     'click .page': function (evt) {
+        log.info("page %d", dataAttr);
         var dataAttr = parseInt($(evt.target).attr('data-page'));
-        console.log("page %d", dataAttr);
         if (dataAttr == 0) return false;
         Bpm.refreshTaskList(dataAttr);
     }
