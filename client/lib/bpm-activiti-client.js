@@ -58,7 +58,11 @@ function pendingPlusOne() {
     }, 200);
 }
 function pendingMinusOne() {
-    Session.set("pending", parseInt(Session.get("pending"))-1);
+    if(Session.get("pending")) {
+        Session.set("pending", parseInt(Session.get("pending"))-1);
+    } else {
+        Session.set("pending",0);
+    }
 }
 
 
@@ -68,14 +72,16 @@ Bpm = {
     start: 0,
     size: 10,
 
-    startProcessInstance: function() {
+    startProcessInstance: function(processInstanceId) {
         pendingPlusOne();
-        Meteor.call("startProcessInstance", function(err, res) {
+        Meteor.call("startProcessInstanceById", processInstanceId, function(err,result) {
             pendingMinusOne();
-            if (err) {
-                log.error("errore: %s" , err.message);
+            if(err) {
+                log.error("errore: " + err);
+            } else if (result.err) {
+                log.error("errore: " + result.err);
             } else {
-                log.info("starting instance of procDef " + JSON.stringify(res));
+                log.info("starting instance of procDef " + JSON.stringify(result.data));
             }
         });        
     },

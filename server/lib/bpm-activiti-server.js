@@ -14,14 +14,41 @@ Bpm = {
 Meteor.startup(function () {
     log.info("bpm.js");
     Meteor.methods({
-        startProcessInstance: function(processInstanceId) {
-        //PUT runtime/process-instances/{processInstanceId}
-            var res = HTTP.call("PUT", Bpm.activitiUrl + 'runtime/process-instances/' + processInstanceId, Bpm.options());
-            var content = JSON.parse(res.content);
+        startProcessInstanceById: function(processInstanceId) {
+        //POST runtime/process-instances/{processInstanceId}
+            var myOpts = {
+                data: {
+                    "processDefinitionId":processInstanceId
+                },
+                headers:{
+                    "Content-Type":"application/json;charset=UTF-8"
+                }
+            }
+            var options = Bpm.options(myOpts);
+
+            var result = HTTP.call("POST", Bpm.activitiUrl + 'runtime/process-instances', options);
             
-            log.info("Start process instance response: " + JSON.stringify(content));
-            
-            return content;
+            if(!result) {
+                log.error("Result from startProcessInstanceById is undefined");
+                return {
+                    err:"Result from startProcessInstanceById is undefined",
+                    data:null
+                };
+            } else {
+                log.info("RESULT:"+JSON.stringify(result));
+                if(result.err) {
+                    log.error("Returning with error " + JSON.stringify(result.err));
+                    return {
+                      err: result.err,
+                        data:null
+                    };
+                }
+
+                return {
+                    err: null,
+                    data: result.data
+                };
+            }
         },
         refreshProcessDefinitions: function() {
             //GET repository/process-definitions

@@ -7,7 +7,7 @@ Template.processDefinitionWidget.helpers({
 
 Template.processDefinitionWidget.events({
     'click .close': function() {
-        this.hide();
+         $('.procdeflist').hide();
     },
     'click #send': function() {
         log.info('start data: %s',  $('#startData').val());

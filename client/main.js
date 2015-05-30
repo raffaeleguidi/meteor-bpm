@@ -37,7 +37,7 @@ Meteor.startup(function () {
         var currentPage = Session.get("taskList").currentPage;
         Bpm.refreshTaskList(currentPage);
         Bpm.refreshInbox();
-    }, interval)
+    }, interval);
 
     $( document ).ready(function() {
         $('.collapsible').collapsible({
