@@ -58,11 +58,7 @@ function pendingPlusOne() {
     }, 200);
 }
 function pendingMinusOne() {
-    if(Session.get("pending")) {
-        Session.set("pending", parseInt(Session.get("pending"))-1);
-    } else {
-        Session.set("pending",0);
-    }
+    Session.set("pending", parseInt(Session.get("pending"))-1);
 }
 
 
@@ -101,8 +97,6 @@ Bpm = {
         pendingPlusOne();
         if (page) {
             this.start = (page -1) * this.size;
-        } else {
-            page = 1;
         }
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
             pendingMinusOne();
@@ -112,7 +106,7 @@ Bpm = {
                 var taskList = {
                     tasks : res,
                     pages: calculatePages(res),
-                    currentPage: page,
+                    currentPage: page ? page : 1,
                     lastUpdate: new Date()
                 }
                 Session.set('taskList', taskList);
@@ -123,8 +117,6 @@ Bpm = {
         pendingPlusOne();
         if (page) {
             this.start = (page -1) * this.size;
-        } else {
-            page = 1;
         }
         Meteor.call("refreshInbox", this.start, this.size, function(err, res) {
             pendingMinusOne();
@@ -135,7 +127,7 @@ Bpm = {
                 var inbox = {
                     tasks : res,
                     pages: calculatePages(res),
-                    currentPage: page,
+                    currentPage: page ? page : 1,
                     lastUpdate: new Date()
                 }
 //                log.info(res);
