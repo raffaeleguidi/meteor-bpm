@@ -35,7 +35,7 @@ Template.tasklistWidget.events({
     'click .page': function (evt) {
         var dataAttr = $(evt.target).attr('data-page');
         if (dataAttr == 0) return false;
-        Bpm.refreshTaskList(parseInt($(evt.target).attr('data-page')));
+        Bpm.refreshTaskList(parseInt(dataAttr));
     }
 });
 

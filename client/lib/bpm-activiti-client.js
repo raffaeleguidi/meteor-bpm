@@ -100,7 +100,9 @@ Bpm = {
     refreshTaskList: function(page) {
         pendingPlusOne();
         if (page) {
-            this.start = page -1 * this.size;
+            this.start = (page -1) * this.size;
+        } else {
+            page = 1;
         }
         Meteor.call("refreshTaskList", this.start, this.size, function(err, res) {
             pendingMinusOne();
@@ -110,7 +112,7 @@ Bpm = {
                 var taskList = {
                     tasks : res,
                     pages: calculatePages(res),
-                    currentPage: page ? page : 1,
+                    currentPage: page,
                     lastUpdate: new Date()
                 }
                 Session.set('taskList', taskList);
@@ -120,7 +122,9 @@ Bpm = {
     refreshInbox: function(page) {
         pendingPlusOne();
         if (page) {
-            this.start = page -1 * this.size;
+            this.start = (page -1) * this.size;
+        } else {
+            page = 1;
         }
         Meteor.call("refreshInbox", this.start, this.size, function(err, res) {
             pendingMinusOne();
@@ -131,7 +135,7 @@ Bpm = {
                 var inbox = {
                     tasks : res,
                     pages: calculatePages(res),
-                    currentPage: page ? page : 1,
+                    currentPage: page,
                     lastUpdate: new Date()
                 }
 //                log.info(res);
