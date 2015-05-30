@@ -76,7 +76,7 @@ Meteor.startup(function () {
                     return {error: 'HTTP_' + res.statusCode, taskId: taskId, formProperties: []}
                 }
             } catch (ex) {
-                log.error('form/form-data returned exception %d', ex.message)
+                log.error('form/form-data returned exception %s', ex.message)
                 return {error: ex.message, taskId: taskId, formProperties: []}
             }
         },
@@ -104,6 +104,25 @@ Meteor.startup(function () {
             } catch (ex) {
                 log.error('form/form-data returned exception %s', ex)
                 return { error: ex.message }
+            }
+        },
+        getInvolvedPeople: function(processInstanceId) {
+            var options = Bpm.options();
+            try {
+                var res = HTTP.call("GET", Bpm.activitiUrl +
+                                    'runtime/process-instances/' +
+                                    processInstanceId +
+                                    '/identitylinks', options);
+                if (res.statusCode >= 200 && res.statusCode < 300) {
+                    var result = JSON.parse(res.content);
+                    return result;
+                } else {
+                    log.warn('runtime/process-instances.../identitylinks returned %d', res.statusCode)
+                    return { error: 'HTTP_' + res.statusCode, processInstanceId: processInstanceId }
+                }
+            } catch (ex) {
+                log.error('runtime/process-instances.../identitylinks %s', ex.message)
+                return { error: ex.message, processInstanceId: processInstanceId }
             }
         }
     });
