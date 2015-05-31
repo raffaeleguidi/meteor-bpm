@@ -3,10 +3,21 @@ Restivus.configure({
     prettyJson: true
 });
 
-Restivus.addRoute('test', {authRequired: false}, {
+Restivus.addRoute('test', { authRequired: false }, {
     get: function () {
         log.info("I'm getting a test call");
         return { jsonType: 'weird', data: 'response from api call'};
+    }
+});
+
+Restivus.addRoute('notification', { authRequired: false }, {
+    get: function () {
+        log.info("I'm getting a notification of type %s for process %s - instance %s",
+                        this.queryParams.eventType,
+                        this.queryParams.processDefinitionId,
+                        this.queryParams.processInstanceId
+        )
+        return { status: 'ok'};
     }
 });
 
