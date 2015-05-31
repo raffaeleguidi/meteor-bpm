@@ -38,7 +38,8 @@ Template.processDefinitionWidget.events({
                 variables.push({ "name":form.formProperties[i].id, value:value});
             }
 
-            Session.set("starterFormProperties",{});
+            Session.set("processDefinitions", undefined);
+            Session.set("starterFormProperties", undefined);
 
             Bpm.startProcessInstance(id, variables);
             Bpm.refreshTaskList();
