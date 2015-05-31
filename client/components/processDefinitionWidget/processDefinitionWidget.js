@@ -11,6 +11,8 @@ Template.processDefinitionWidget.events({
     'click .closeStartBox': function() {
          //$('.procdeflist').hide();
         Session.set("showStartBox", false);
+        Session.set("processDefinitions", undefined);
+        Session.set("starterFormProperties", undefined);
     },
     'change .startData': function() {
         var id = $('#startData').val();

@@ -8,9 +8,9 @@
         </div>
         <div class="row" style="padding: 10px; min-height:350px">
             <div class="section" style="width: 100%">
-                <label>Pick a process definition</label>
+                <label>Process to start</label>
                 <select class="startData {{type}} browser-default" id="startData" data-property-id="{{id}}">
-                    <option>choose one from list</option>
+                    <option disabled>Pick from the list</option>
                     {{# each processDefinitionList}}
                     <option value="{{id}}">{{name}}</option>
                     {{/each}}
