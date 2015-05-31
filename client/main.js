@@ -30,7 +30,7 @@ Meteor.startup(function () {
     
     // should implement an event handler, instead
     // http://www.activiti.org/userguide/#eventDispatcher
-    var interval = 5000;
+    var interval = 50000;
     setInterval (function() {
         if (new Date().getTime() - Session.get("taskList").lastUpdate.getTime() > interval)
         Bpm.refreshTaskList(Session.get("taskList").currentPage);

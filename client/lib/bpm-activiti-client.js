@@ -71,9 +71,9 @@ Bpm = {
     start: 0,
     size: 10,
 
-    startProcessInstance: function(processInstanceId) {
+    startProcessInstance: function(processInstanceId, variables) {
         pendingPlusOne();
-        Meteor.call("startProcessInstanceById", processInstanceId, function(err,result) {
+        Meteor.call("startProcessInstanceById", processInstanceId, variables, function(err,result) {
             pendingMinusOne();
             if(err) {
                 log.error("errore: " + err);
@@ -83,6 +83,19 @@ Bpm = {
                 log.info("starting instance of procDef " + JSON.stringify(result.data));
             }
         });        
+    },
+    processDefinitionStarterForm: function(processDefinitionId) {
+        pendingPlusOne();
+        return Meteor.call("processDefinitionStarterForm", processDefinitionId, function(err, res) {
+            pendingMinusOne();
+
+            if (err) {
+                log.error("errore: %s" , err.message);
+            } else {
+                Session.set("starterFormProperties", res);
+                Meteor.flush();
+            }
+        });
     },
     refreshProcessDefinitions: function() {
         pendingPlusOne();

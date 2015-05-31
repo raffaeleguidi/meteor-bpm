@@ -10,12 +10,23 @@
             <div class="section" style="width: 100%">
                 <label>Pick a process definition</label>
                 <select class="startData {{type}} browser-default" id="startData" data-property-id="{{id}}">
+                    <option>choose one from list</option>
                     {{# each processDefinitionList}}
                     <option value="{{id}}">{{name}}</option>
                     {{/each}}
                 </select>
             </div>
-            <div id="inputForm"></div>
+            <div id="inputForm">
+                <form>
+                    <ul>
+                    {{#each processFormStarter.formProperties}}
+                        <li><label>{{name}}</label>&nbsp;
+                            {{> inputType}}
+                        </li>
+                    {{/each}}
+                    </ul>
+                </form>
+            </div>
             <div id="send" style="position: absolute; bottom: 10px">
                 <a class="btn blue waves-effect waves-light"><i class="mdi-content-send right"></i>Start</a>
             </div>

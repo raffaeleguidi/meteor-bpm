@@ -14,11 +14,29 @@ Bpm = {
 Meteor.startup(function () {
     log.info("bpm.js");
     Meteor.methods({
-        startProcessInstanceById: function(processInstanceId) {
+        /*
+            variables parameter is optional and in the form of key-value json arra, like:
+            "variables": [
+                    {
+                        "name": "employeeName",
+                        "value": "Miss Piggy"
+                    },
+                    {
+                        "name": "numberOfDays",
+                        "value": "10"
+                    }
+        */
+        startProcessInstanceById: function(processInstanceId, variables) {
         //POST runtime/process-instances/{processInstanceId}
+            var vars = [];
+
+            if(variables && variables instanceof Array) {
+                vars = variables;
+            }
             var myOpts = {
                 data: {
-                    "processDefinitionId":processInstanceId
+                    "processDefinitionId": processInstanceId,
+                    "variables": vars
                 },
                 headers:{
                     "Content-Type":"application/json;charset=UTF-8"
@@ -49,6 +67,18 @@ Meteor.startup(function () {
                     data: result.data
                 };
             }
+        },
+        processDefinitionStarterForm: function(processDefinitionId) {
+            //GET form/form-data
+            var options = Bpm.options({
+                "params": {
+                    "processDefinitionId": processDefinitionId
+                }
+            });
+            var res = HTTP.call("GET", Bpm.activitiUrl + 'form/form-data', options);
+            var content = JSON.parse(res.content);
+
+            return content;
         },
         refreshProcessDefinitions: function() {
             //GET repository/process-definitions
