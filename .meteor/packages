@@ -14,3 +14,4 @@ iron:router
 infinitedg:winston
 momentjs:moment
 mrt:cron
+lepozepo:streams

@@ -30,12 +30,14 @@ Meteor.startup(function () {
     
     // should implement an event handler, instead
     // http://www.activiti.org/userguide/#eventDispatcher
+/*
     var interval = 50000;
     setInterval (function() {
         if (new Date().getTime() - Session.get("taskList").lastUpdate.getTime() > interval)
         Bpm.refreshTaskList(Session.get("taskList").currentPage);
         Bpm.refreshInbox();
     }, interval);
+*/
 
     $( document ).ready(function() {
         $('.collapsible').collapsible({
@@ -57,4 +59,14 @@ Meteor.startup(function () {
             }
         });
     });
+});
+
+notifications.on('message', function(message, time) {
+    log.info('detected change: ' + new Date());
+    var interval = 1000;
+    if (new Date().getTime() - Session.get("taskList").lastUpdate.getTime() > interval) {
+        Bpm.refreshTaskList(Session.get("taskList").currentPage);
+        Bpm.refreshInbox();
+        log.info('refreshed');
+    };
 });

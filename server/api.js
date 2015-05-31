@@ -12,12 +12,14 @@ Restivus.addRoute('test', { authRequired: false }, {
 
 Restivus.addRoute('notification', { authRequired: false }, {
     get: function () {
+        notifications.emit('message', 'Server Generated Message', Date.now());
+        //log.info(notifications.get("lastUpdate"));
         log.info("I'm getting a notification of type %s for process %s - instance %s",
                         this.queryParams.eventType,
                         this.queryParams.processDefinitionId,
                         this.queryParams.processInstanceId
         )
-        return { status: 'ok'};
+        return { status: 'ok' };
     }
 });
 
