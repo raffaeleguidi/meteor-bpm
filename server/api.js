@@ -20,6 +20,16 @@ Restivus.addRoute('notification', { authRequired: false }, {
                         this.queryParams.processInstanceId
         )
         return { status: 'ok' };
+    },
+    post: function() {
+        notifications.emit('message', 'Server Generated Message', Date.now());
+        log.info("eventType: %s", this.bodyParams.eventType);
+        log.info("processDefinitionId: %s", this.bodyParams.processDefinitionId);
+        log.info("processInstanceId: %s", this.bodyParams.processInstanceId);
+        _.each(this.bodyParams.involvedUsers, function(user){
+            log.info("user: %s", user)
+        })
+        return { status: 'ok' };
     }
 });
 
