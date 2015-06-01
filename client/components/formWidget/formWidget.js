@@ -33,8 +33,8 @@ Template.formWidget.events({
         evt.preventDefault();
         var errors = new Array();
         $('.formData').each(function(index, value){
-            log.info('field %s: required=%s, empty=%s', $(value).attr('data-property-id'), $(value).hasClass('required'), $(value).val() == null);
-            if ($(value).hasClass('required') && $(value).val() == null) {
+            log.info('field %s: "%s", required=%s, empty=%s', $(value).attr('data-property-id'), $(value).val(), $(value).hasClass('required'), $(value).val() == null);
+            if ($(value).hasClass('required') && ($(value).val().trim() == null || $(value).val().trim() == '' ) ) {
                 errors.push({ id: $(value).attr('data-property-id'), name: $(value).attr('data-property-name'), message: 'is required and cannot be empty' });
             }
         });

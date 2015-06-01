@@ -1,7 +1,7 @@
 
 <template name="input_string">
     {{#if writable}}
-    <input placeholder="Type in a {{type}} for &laquo;{{name}}&raquo;" class="formData {{type}}" type="text" id="formData_{{id}}" data-property-name="{{name}}" data-property-id="{{id}}" value="{{value}}"/>
+    <input placeholder="Type in a {{type}} for &laquo;{{name}}&raquo;" class="formData {{type}}  {{#if required}}required{{/if}}" type="text" id="formData_{{id}}" data-property-name="{{name}}" data-property-id="{{id}}" value="{{value}}"/>
     {{else}}
     <div class="section">
         <i class="disabled">{{#if value}}{{value}}{{else}}{ empty }{{/if}}</i>
