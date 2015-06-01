@@ -165,7 +165,7 @@ Meteor.startup(function () {
                 }
             } catch (ex) {
                 log.error('form/form-data returned exception %s', ex)
-                return { error: ex.message }
+                return { error: ex }
             }
         },
         getInvolvedPeople: function(processInstanceId) {

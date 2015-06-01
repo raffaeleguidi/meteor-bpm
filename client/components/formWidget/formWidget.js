@@ -31,15 +31,29 @@ Template.formWidget.events({
     'click .complete': function (evt) {
         log.info('complete');
         evt.preventDefault();
+        var errors = new Array();
+        $('.formData').each(function(index, value){
+            log.info('field %s: required=%s, empty=%s', $(value).attr('data-property-id'), $(value).hasClass('required'), $(value).val() == null);
+            if ($(value).hasClass('required') && $(value).val() == null) {
+                errors.push({ id: $(value).attr('data-property-id'), name: $(value).attr('data-property-name'), message: 'is required and cannot be empty' });
+            }
+        });
+        if (errors.length > 0) {
+            _.each(errors, function(item){
+                Materialize.toast('&laquo;' + item.name + '&raquo; ' + item.message, 2000, 'rounded'); // 4000 is the duration of the toast
+            });
+            return;
+        }
+        var taskName = Session.get("currentTask").name;
         Bpm.complete(Session.get("formData").taskId, $('.formData'), function(err, res){
             if (err) {
                     log.error(err.message);
-                    alert('error completing task');
+                    Materialize.toast('Error completing task &laquo;' + taskName + '&raquo;', 4000, 'rounded')
             } else {
                 if (res.error) {
-                    alert('error completing task');
-                    log.error(res.error);
+                    Materialize.toast('Error completing task &laquo;' + taskName + '&raquo;', 4000, 'rounded')
                 } else {
+                    Materialize.toast('Task &laquo;' + taskName + '&raquo; completed', 4000, 'rounded')
                     Bpm.refreshTaskList();
                     Bpm.refreshInbox();
                 }
