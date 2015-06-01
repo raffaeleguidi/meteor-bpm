@@ -1,7 +1,7 @@
 log.info('Bpm object initializing');
 
 Bpm = {
-    activitiUrl: 'http://activiti:8080/activiti-rest/service/',
+    activitiUrl: 'http://localhost:8080/activiti-rest/service/',
     user: 'kermit',
     password: 'kermit',
     options: function(options) {
@@ -53,7 +53,7 @@ Meteor.startup(function () {
                     data:null
                 };
             } else {
-                log.info("RESULT:"+JSON.stringify(result));
+                //log.info("RESULT:"+JSON.stringify(result));
                 if(result.err) {
                     log.error("Returning with error " + JSON.stringify(result.err));
                     return {
