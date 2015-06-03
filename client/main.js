@@ -15,10 +15,6 @@ Deps.autorun(function () {
     }
 });
 
-//Template.main.rendered = function() {
-//    $('.procdeflist').hide();
-//}
-//
 Template.main.events({
     'click .refresh': function (evt) {
         Bpm.reset();
