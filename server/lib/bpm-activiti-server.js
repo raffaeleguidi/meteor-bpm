@@ -12,6 +12,7 @@ Bpm = {
 function authenticate() {
     Bpm.user = Meteor.user().username;
     Bpm.password = Meteor.user().username;
+    return Bpm.user != undefined;
 }
 
 Meteor.startup(function () {
@@ -31,7 +32,7 @@ Meteor.startup(function () {
         */
         startProcessInstanceById: function(processInstanceId, variables) {
         //POST runtime/process-instances/{processInstanceId}
-            authenticate();
+            if (!authenticate()) return null;
             var vars = [];
 
             if(variables && variables instanceof Array) {
@@ -74,7 +75,7 @@ Meteor.startup(function () {
         },
         processDefinitionStarterForm: function(processDefinitionId) {
             //GET form/form-data
-            authenticate();
+            if (!authenticate()) return null;
             var options = Bpm.options({
                 "params": {
                     "processDefinitionId": processDefinitionId
@@ -90,7 +91,7 @@ Meteor.startup(function () {
 //            options.params = {
 //                startableByUser: user
 //            };
-            authenticate();
+            if (!authenticate()) return null;
             var options = Bpm.options({
                 params: {
                     latest: true
@@ -104,7 +105,7 @@ Meteor.startup(function () {
             return content;
         },
         refreshTaskList: function (start, size) {
-            authenticate();
+            if (!authenticate()) return null;
             var options = Bpm.options({
                 params: {
                     start: start ? start : 0,
@@ -118,7 +119,7 @@ Meteor.startup(function () {
             return content;
         },
         refreshInbox: function (start, size) {
-            authenticate();
+            if (!authenticate()) return null;
             var options = Bpm.options({
                 params: {
                     start: start ? start : 0,
@@ -131,7 +132,7 @@ Meteor.startup(function () {
             return content;
         },
         getFormData: function(taskId) {
-            authenticate();
+            if (!authenticate()) return null;
             var options = Bpm.options({
                 params : {
                     taskId: taskId
@@ -152,7 +153,7 @@ Meteor.startup(function () {
             }
         },
         complete: function(taskId, properties) {
-            authenticate();
+            if (!authenticate()) return null;
             var options = Bpm.options({
                 headers: {
                     "Content-Type": "application/json"
@@ -179,7 +180,7 @@ Meteor.startup(function () {
             }
         },
         getInvolvedPeople: function(processInstanceId) {
-            authenticate();
+            if (!authenticate()) return null;
             var options = Bpm.options();
             try {
                 var res = HTTP.call("GET", Bpm.activitiUrl +

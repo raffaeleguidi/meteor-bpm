@@ -12,6 +12,10 @@ Template.registerHelper('loading', function(date) {
     return parseInt(Session.get("pending")) > 0;
 });
 
+Template.registerHelper('pending', function(date) {
+    return parseInt(Session.get("pending"));
+});
+
 Template.registerHelper("taskList", function() {
     return Session.get('taskList');
 });
@@ -172,6 +176,13 @@ Bpm = {
     reset: function(){
         Bpm.start = 0;
         this.refreshTaskList();
+        this.refreshInbox();
+        Session.set("currentTask", undefined);
+        Session.set("formData", undefined);
+    },
+    clear: function() {
+        Session.set("taskList", undefined);
+        Session.set("inbox", undefined);
         Session.set("currentTask", undefined);
         Session.set("formData", undefined);
     }

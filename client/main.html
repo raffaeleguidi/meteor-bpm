@@ -5,8 +5,8 @@
                 <div class="container">
                     <div class="nav-wrapper"><a class="mytitle page-title" href="/">myBPM-box</a>
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
-                            <li><a href="#">{{#if loading}}Client busy{{/if}}</a></li>
-                            <li><a href="#">Inbox ({{inbox.tasks.total}}/{{taskList.tasks.total}})</a></li>
+                            <li><a href="#">{{#if loading}}Client busy - {{pending}}{{/if}}</a></li>
+                            {{#if currentUser}}<li><a href="#">Inbox ({{inbox.tasks.total}}/{{taskList.tasks.total}})</a></li>{{/if}}
                             <li>{{> loginBox}}</li>
                             <li><a href="#">Help</a></li>
                         </ul>

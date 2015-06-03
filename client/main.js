@@ -2,14 +2,23 @@ log.info("Bpm application started");
 
 
 Accounts.ui.config({
-  passwordSignupFields: 'USERNAME_ONLY'
+    passwordSignupFields: 'USERNAME_ONLY'
 });
 
+Deps.autorun(function () {
+    if (Meteor.user()) {
+        console.log('User logged in');
+        setTimeout(function() { Bpm.reset(); }, 1000);
+    } else {
+        console.log('User is not logged in');
+        Bpm.clear();
+    }
+});
 
-Template.main.rendered = function() {
-    $('.procdeflist').hide();
-}
-
+//Template.main.rendered = function() {
+//    $('.procdeflist').hide();
+//}
+//
 Template.main.events({
     'click .refresh': function (evt) {
         Bpm.reset();
@@ -30,8 +39,8 @@ Template.main.events({
 Router.configure({layoutTemplate: 'main'});
 
 Meteor.startup(function () {
-    Bpm.refreshTaskList();
-    Bpm.refreshInbox();
+//    Bpm.refreshTaskList();
+//    Bpm.refreshInbox();
 //    Bpm.refreshProcessDefinitions();
     
     // should implement an event handler, instead
