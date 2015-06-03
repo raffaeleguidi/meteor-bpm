@@ -7,10 +7,10 @@ Accounts.ui.config({
 
 Deps.autorun(function () {
     if (Meteor.user()) {
-        console.log('User logged in');
+        log.info('User logged in as %s', Meteor.user().username);
         setTimeout(function() { Bpm.reset(); }, 1000);
     } else {
-        console.log('User is not logged in');
+        log.info('User is not logged in');
         Bpm.clear();
     }
 });
