@@ -3,9 +3,9 @@
         <header>
             <nav class="top-nav">
                 <div class="container">
-                    <div class="nav-wrapper"><a class="mytitle page-title" href="/">myBPM-box</a>
+                    <div class="nav-wrapper"><a class="mytitle page-title" href="/">myBPM<span style="font-size: smaller; padding-right: 5px; padding-left: 5px; border-radius: 10px; color: black; background-color: rgb(229, 229, 76);">box</span></a>
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
-                            <li><a href="#">{{#if loading}}Client busy - {{pending}}{{/if}}</a></li>
+                            <li><a href="#">{{#if loading}}{{pending}} tasks pending{{else}}Ready{{/if}}</a></li>
                             {{#if currentUser}}<li><a href="#">Inbox ({{inbox.tasks.total}}/{{taskList.tasks.total}})</a></li>{{/if}}
                             <li>{{> loginBox}}</li>
                             <li><a href="#">Help</a></li>
