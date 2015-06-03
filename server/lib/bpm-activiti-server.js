@@ -2,13 +2,16 @@ log.info('Bpm object initializing');
 
 Bpm = {
     activitiUrl: 'http://localhost:8080/activiti-rest/service/',
-    user: 'kermit',
-    password: 'kermit',
     options: function(options) {
         if (!options) options = {};
         options.auth = this.user + ':' + this.password;
         return options;
     }
+}
+
+function authenticate() {
+    Bpm.user = Meteor.user().username;
+    Bpm.password = Meteor.user().username;
 }
 
 Meteor.startup(function () {
@@ -28,6 +31,7 @@ Meteor.startup(function () {
         */
         startProcessInstanceById: function(processInstanceId, variables) {
         //POST runtime/process-instances/{processInstanceId}
+            authenticate();
             var vars = [];
 
             if(variables && variables instanceof Array) {
@@ -70,6 +74,7 @@ Meteor.startup(function () {
         },
         processDefinitionStarterForm: function(processDefinitionId) {
             //GET form/form-data
+            authenticate();
             var options = Bpm.options({
                 "params": {
                     "processDefinitionId": processDefinitionId
@@ -85,6 +90,7 @@ Meteor.startup(function () {
 //            options.params = {
 //                startableByUser: user
 //            };
+            authenticate();
             var options = Bpm.options({
                 params: {
                     latest: true
@@ -98,6 +104,7 @@ Meteor.startup(function () {
             return content;
         },
         refreshTaskList: function (start, size) {
+            authenticate();
             var options = Bpm.options({
                 params: {
                     start: start ? start : 0,
@@ -111,6 +118,7 @@ Meteor.startup(function () {
             return content;
         },
         refreshInbox: function (start, size) {
+            authenticate();
             var options = Bpm.options({
                 params: {
                     start: start ? start : 0,
@@ -123,6 +131,7 @@ Meteor.startup(function () {
             return content;
         },
         getFormData: function(taskId) {
+            authenticate();
             var options = Bpm.options({
                 params : {
                     taskId: taskId
@@ -143,6 +152,7 @@ Meteor.startup(function () {
             }
         },
         complete: function(taskId, properties) {
+            authenticate();
             var options = Bpm.options({
                 headers: {
                     "Content-Type": "application/json"
@@ -169,6 +179,7 @@ Meteor.startup(function () {
             }
         },
         getInvolvedPeople: function(processInstanceId) {
+            authenticate();
             var options = Bpm.options();
             try {
                 var res = HTTP.call("GET", Bpm.activitiUrl +

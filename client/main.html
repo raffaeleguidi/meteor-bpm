@@ -7,7 +7,7 @@
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
                             <li><a href="#">{{#if loading}}Client busy{{/if}}</a></li>
                             <li><a href="#">Inbox ({{inbox.tasks.total}}/{{taskList.tasks.total}})</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li>{{> loginBox}}</li>
                             <li><a href="#">Help</a></li>
                         </ul>
                     </div>
@@ -67,4 +67,8 @@
         {{/if}}
 
     </body>
+</template>
+
+<template name="loginBox">
+    {{> loginButtons}}
 </template>

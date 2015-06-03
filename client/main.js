@@ -1,5 +1,11 @@
 log.info("Bpm application started");
 
+
+Accounts.ui.config({
+  passwordSignupFields: 'USERNAME_ONLY'
+});
+
+
 Template.main.rendered = function() {
     $('.procdeflist').hide();
 }
