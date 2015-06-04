@@ -35,26 +35,7 @@ Template.main.events({
 Router.configure({layoutTemplate: 'main'});
 
 Meteor.startup(function () {
-//    Bpm.refreshTaskList();
-//    Bpm.refreshInbox();
-//    Bpm.refreshProcessDefinitions();
-    
-    // should implement an event handler, instead
-    // http://www.activiti.org/userguide/#eventDispatcher
-/*
-    var interval = 50000;
-    setInterval (function() {
-        if (new Date().getTime() - Session.get("taskList").lastUpdate.getTime() > interval)
-        Bpm.refreshTaskList(Session.get("taskList").currentPage);
-        Bpm.refreshInbox();
-    }, interval);
-*/
-
     $( document ).ready(function() {
-        $('.collapsible').collapsible({
-          accordion : false 
-        });
-        
         $(document).on('keydown', function (evt) {
             /*log.info(evt.keyCode);
             log.info(evt.target);*/

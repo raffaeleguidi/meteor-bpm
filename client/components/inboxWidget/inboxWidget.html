@@ -1,0 +1,23 @@
+<template name="inboxWidget">
+    {{#if taskList.tasks.total}}
+    <label>Inbox</label>
+    <ul class="collapsible popout" data-collapsible="accordion" style="margin-left: -50px; margin-right: -50px">
+        {{#each taskList.tasks.data}}
+        <li>
+            <div class="collapsible-header open" data-task-id="{{id}}"><i class="mdi-image-filter-drama"></i>#{{id}} <a style="color:black; font-weight: bold;" href="#form">{{name}}</a> <div class="right">{{assignee}}</div></div>
+            <div class="collapsible-body" style="background-color: white;"><p id="form_{{id}}">{{> innerFormWidget this}}</p></div>
+        </li>
+        {{/each}}
+    </ul>
+
+    <ul class="pagination">
+        <li data-page="{{previousPage}}" class="page {{#if previousPage}}waves-effect{{else}}disabled{{/if}} previous-page"><a data-page="{{previousPage}}" class="page" href="#!"><i data-page="{{previousPage}}" class="mdi-navigation-chevron-left"></i></a></li>
+        {{#each pages}}
+            <li data-page="{{this}}" class="page {{#if active this}}active{{else}}waves-effect{{/if}}"><a class="page" data-page="{{this}}" href="#page{{this}}">{{this}}</a></li>
+        {{/each}}
+        <li data-page="{{nextPage}}" class="page {{#if nextPage}}waves-effect{{else}}disabled{{/if}} next-page"><a data-page="{{nextPage}}" class="page" href="#!"><i data-page="{{nextPage}}" class="mdi-navigation-chevron-right"></i></a></li>
+    </ul>
+
+    <br clear="left"/>
+    {{/if}}
+</template>

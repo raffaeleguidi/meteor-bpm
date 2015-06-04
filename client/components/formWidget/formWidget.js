@@ -19,10 +19,25 @@ Template.formWidget.helpers({
     },
     currentTask: function() {
         return Session.get('currentTask');
+    },
+    showBorder: function() {
+        return true;
     }
 });
 
-Template.formWidget.events({
+Template.innerFormWidget.helpers({
+    formData: function() {
+        return Session.get('formData_' + this.id);
+    },
+    currentTask: function() {
+        return Session.get('currentTask');
+    },
+    showBorder: function() {
+        return true;
+    }
+});
+
+Template.innerFormWidget.events({
     'click .unselect': function () {
         log.info('unselect');
         Session.set('formData', undefined);

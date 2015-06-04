@@ -1,31 +1,36 @@
-
 <template name="formWidget">
     {{#if formData}}
     <div class="row z-depth-1" style="padding: 20px">
         <p>
-            <h3>{{currentTask.name}}</h3>
-            <hr />
-            <h5 class="right">Task #{{formData.taskId}}</h5>
-            <br clear="both" />
-            {{#if formData.error}}
-                <h4>Error</h4>
-                <blockquote>{{formData.error}}</blockquote>
-            {{else}}
-                <form data-attribute-name="{{currentTask.name}}">
-                    <ul>
-                    {{#each formData.formProperties}}
-                        <li><label>{{name}}{{#if required}} <span style="color: red"><i class="mdi-action-grade very-small"></i> </span>{{/if}}</label>&nbsp;
-                            {{> inputType}}
-                        </li>
-                    {{/each}}
-                    </ul>
-                </form>
-            {{/if}}
-            <div class="row right">
-<!--                <a class="btn small unselect"><i class="mdi-action-flip-to-back right"></i>Hide</a>-->
-                <a class="btn small complete"><i class="mdi-action-done small right"></i>Complete</a>
-            </div>
+            {{> innerFormWidget}}
         </p>
     </div>
     {{/if}}
+</template>
+
+<template name="innerFormWidget">
+    <span id="innerFormWidget">
+        <h3>{{name}}</h3>
+        <hr />
+        <h5 class="right">Task #{{id}}</h5>
+        <br clear="both" />
+        {{#if error}}
+            <h4>Error</h4>
+            <blockquote>{{error}}</blockquote>
+        {{else}}
+            <form data-task-id="{{id}}" data-attribute-name="{{name}}">
+                <ul>
+                {{#each formData.formProperties}}
+                    <li><label>{{name}}{{#if required}} <span style="color: red"><i class="mdi-action-grade very-small"></i> </span>{{/if}}</label>&nbsp;
+                        {{> inputType}}
+                    </li>
+                {{/each}}
+                </ul>
+            </form>
+        {{/if}}
+        <div class="row right">
+    <!--                <a class="btn small unselect"><i class="mdi-action-flip-to-back right"></i>Hide</a>-->
+            <a class="btn small complete" data-task-id="{{formData.taskId}}"><i class="mdi-action-done small right"></i>Complete</a>
+        </div>
+    </span>
 </template>

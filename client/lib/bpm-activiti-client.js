@@ -155,6 +155,17 @@ Bpm = {
             }
         });
     },
+    getFormData2: function(taskId) {
+        pendingPlusOne();
+        Meteor.call("getFormData", taskId, function(err, res) {
+            pendingMinusOne();
+            if (err) {
+              log.error("errore: %s" , err.message);
+            } else {
+              Session.set('formData_' + taskId, res);
+            }
+        });
+    },
     getFormData: function(taskId) {
         pendingPlusOne();
         Meteor.call("getFormData", taskId, function(err, res) {
