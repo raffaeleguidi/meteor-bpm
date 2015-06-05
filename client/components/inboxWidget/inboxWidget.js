@@ -35,26 +35,12 @@ Template.inboxWidget.events({
     'click .open': function (evt) {
         log.info('open');
         Session.set('currentTask', this);
-        Bpm.getFormData2(this.id);
+        Bpm.getFormData3(this.id, function(err, res){
+            log.info("formData_" + res.taskId);
+            Session.set('formData_' + res.taskId, res);
+        });
         $('body').focus();
         window.location.hash = 'form';
-        // switch parent of form widget
-//        var element = $('#innerFormWidget')
-//        //element.detach();
-//        var target = $('#form_' + $(evt.target).attr('data-task-id'));
-//        //target.append(element);
-//        element.hide();
-//        setTimeout(function(){
-//            element.css("position", "absolute");
-//            target.animate({
-//                height:element.height()
-//            }, 100, function(){
-//                element.animate({
-//                    top: target.position().top
-//                }, 0);
-//                element.show();
-//            });
-//        }, 100);
     },
     'click .page': function (evt) {
         log.info("page %d", dataAttr);

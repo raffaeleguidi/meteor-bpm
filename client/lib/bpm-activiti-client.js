@@ -113,7 +113,7 @@ Bpm = {
             }
         });       
     },
-    refreshTaskList: function(page) {
+    refreshTaskList: function(page, cb) {
         pendingPlusOne();
         if (page) {
             this.start = (page -1) * this.size;
@@ -122,6 +122,7 @@ Bpm = {
             pendingMinusOne();
             if (err) {
                 log.error("errore: %s" , err.message);
+                if (cb) cb(err, null);
             } else {
                 var taskList = {
                     tasks : res,
@@ -129,7 +130,15 @@ Bpm = {
                     currentPage: page ? page : 1,
                     lastUpdate: new Date()
                 }
+                // this is the land of confusion
                 Session.set('taskList', taskList);
+
+                $('.collapsible').collapsible({
+                  accordion : false
+                });
+                // and this should be the normality
+
+                if (cb) cb(null, taskList);
             }
         });
     },
@@ -155,14 +164,26 @@ Bpm = {
             }
         });
     },
+    getFormData3: function(taskId, cb) {
+        pendingPlusOne();
+        Meteor.call("getFormData", taskId, function(err, res) {
+            pendingMinusOne();
+            if (err) {
+                log.error("errore: %s" , err.message);
+                cb(err, null);
+            } else {
+                cb(null, res);
+            }
+        });
+    },
     getFormData2: function(taskId) {
         pendingPlusOne();
         Meteor.call("getFormData", taskId, function(err, res) {
             pendingMinusOne();
             if (err) {
-              log.error("errore: %s" , err.message);
+                log.error("errore: %s" , err.message);
             } else {
-              Session.set('formData_' + taskId, res);
+                Session.set('formData_' + taskId, res);
             }
         });
     },

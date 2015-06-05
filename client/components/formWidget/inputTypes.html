@@ -1,7 +1,14 @@
 
 <template name="input_string">
     {{#if writable}}
-    <input placeholder="Type in a {{type}} for &laquo;{{name}}&raquo;" class="formData {{type}}  {{#if required}}required{{/if}}" type="text" id="formData_{{id}}" data-property-name="{{name}}" data-property-id="{{id}}" value="{{value}}"/>
+    <input
+           placeholder="Type in a {{type}} for &laquo;{{name}}&raquo;"
+           class="formData {{type}}  {{#if required}}required{{/if}}"
+           type="text" id="formData_{{id}}"
+           data-property-name="{{name}}"
+           data-property-id="{{id}}"
+           data-task-id="{{taskId}}"
+           value="{{value}}"/>
     {{else}}
     <div class="section">
         <i class="disabled">{{#if value}}{{value}}{{else}}{ empty }{{/if}}</i>
@@ -23,7 +30,12 @@
 
 <template name="input_enum">
     <div class="section" style="width: 100%">
-        <select class="formData {{type}} browser-default {{#if required}}required{{/if}}" id="formData_{{id}}" data-property-name="{{name}}" data-property-id="{{id}}" >
+        <select
+                class="formData {{type}} browser-default {{#if required}}required{{/if}}"
+                id="formData_{{id}}"
+                data-property-name="{{name}}"
+                data-task-id="{{taskId}}"
+                data-property-id="{{id}}" >
             <option value="" disabled selected>Choose your option</option>
             {{#each enumValues}}
                 <option value="{{id}}">{{name}}</option>
@@ -51,7 +63,15 @@
         {{#if data}}
             <ul>
                 <li>
-                    <label>JSON representation</label><input data-property-name="{{name}}" data-property-id="{{id}}" id="form_{{id}}" disabled="true" class=" {{#if required}}required{{/if}} disabled formData json" type="text" value="{{serialize this.data}}" />
+                    <label>JSON representation</label><input
+                                                             data-property-name="{{name}}"
+                                                             data-property-id="{{id}}"
+                                                             id="form_{{id}}"
+                                                             disabled="true"
+                                                             class=" {{#if required}}required{{/if}} disabled formData json"
+                                                             data-task-id="{{taskId}}"
+                                                             type="text"
+                                                             value="{{serialize this.data}}" />
                     <label>field &laquo;jsonType&raquo;</label><input data-field="{{id}}" data-ref="jsonType" class="weird" type="text" placeholder="data.jsonType" value="{{data.jsonType}}" />
                     <label>field &laquo;data&raquo;</label><input data-field="{{id}}" data-ref="data" class="weird" type="text" placeholder="data.data" value="{{data.data}}" /></li>
             </ul>

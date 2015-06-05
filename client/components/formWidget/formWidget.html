@@ -14,23 +14,23 @@
         <hr />
         <h5 class="right">Task #{{id}}</h5>
         <br clear="both" />
-        {{#if error}}
-            <h4>Error</h4>
-            <blockquote>{{error}}</blockquote>
-        {{else}}
-            <form data-task-id="{{id}}" data-attribute-name="{{name}}">
+        <form data-task-id="{{id}}" data-attribute-name="{{name}}">
+            {{#if error}}
+                <h4>Error</h4>
+                <blockquote>{{error}}</blockquote>
+            {{else}}
                 <ul>
                 {{#each formData.formProperties}}
                     <li><label>{{name}}{{#if required}} <span style="color: red"><i class="mdi-action-grade very-small"></i> </span>{{/if}}</label>&nbsp;
-                        {{> inputType}}
+                        {{> inputType this taskId=formData.taskId}}
                     </li>
                 {{/each}}
                 </ul>
-            </form>
-        {{/if}}
-        <div class="row right">
-    <!--                <a class="btn small unselect"><i class="mdi-action-flip-to-back right"></i>Hide</a>-->
-            <a class="btn small complete" data-task-id="{{formData.taskId}}"><i class="mdi-action-done small right"></i>Complete</a>
-        </div>
+            {{/if}}
+            <div class="row right">
+                <!-- <a class="btn small unselect"><i class="mdi-action-flip-to-back right"></i>Hide</a> -->
+                <a class="btn small complete" data-task-id="{{formData.taskId}}"><i class="mdi-action-done small right"></i>Complete</a>
+            </div>
+        </form>
     </span>
 </template>

@@ -47,9 +47,14 @@ Template.innerFormWidget.events({
         log.info('complete');
         evt.preventDefault();
         var errors = new Array();
-        $('.formData').each(function(index, value){
+        var taskId = $(evt.target).attr("data-task-id");
+        console.log(taskId);
+        var inputs = $('form[data-task-id=' + taskId + '] :input.formData');
+        /*log.info(inputs);
+        return;*/
+        inputs.each(function(index, value){
             log.info('field %s: "%s", required=%s, empty=%s', $(value).attr('data-property-id'), $(value).val(), $(value).hasClass('required'), $(value).val() == null);
-            if ($(value).hasClass('required') && ($(value).val().trim() == null || $(value).val().trim() == '' ) ) {
+            if ($(value).hasClass('required') && ($(value).val() == null || $(value).val().trim() == '' ) ) {
                 errors.push({ id: $(value).attr('data-property-id'), name: $(value).attr('data-property-name'), message: 'is required and cannot be empty' });
             }
         });
@@ -60,7 +65,10 @@ Template.innerFormWidget.events({
             return;
         }
         var taskName = Session.get("currentTask").name;
-        Bpm.complete(Session.get("formData").taskId, $('.formData'), function(err, res){
+        var currentTask = {
+            id: taskId
+        }
+        Bpm.complete(taskId, inputs, function(err, res){
             if (err) {
                     log.error(err.message);
                     Materialize.toast('Error completing task &laquo;' + taskName + '&raquo;', 4000, 'rounded')
@@ -69,7 +77,11 @@ Template.innerFormWidget.events({
                     Materialize.toast('Error completing task &laquo;' + taskName + '&raquo;', 4000, 'rounded')
                 } else {
                     Materialize.toast('Task &laquo;' + taskName + '&raquo; completed', 4000, 'rounded')
-                    Bpm.refreshTaskList();
+                    Bpm.refreshTaskList(null, function(err, res) {
+                        $('.collapsible').collapsible({
+                          accordion : false
+                        });
+                    });
                     Bpm.refreshInbox();
                 }
             }
