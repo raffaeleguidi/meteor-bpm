@@ -53,6 +53,7 @@ Meteor.startup(function () {
     });
 });
 
+/*
 notifications.on('message', function(message, time) {
     log.info('detected change: ' + new Date());
     var interval = 1000;
@@ -62,3 +63,4 @@ notifications.on('message', function(message, time) {
         log.info('refreshed');
     };
 });
+*/

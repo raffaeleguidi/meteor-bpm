@@ -22,13 +22,20 @@ Restivus.addRoute('notification', { authRequired: false }, {
         return { status: 'ok' };
     },
     post: function() {
-        notifications.emit('message', 'Server Generated Message', Date.now());
+        //notifications.emit('message', 'Server Generated Message', Date.now());
         log.info("eventType: %s", this.bodyParams.eventType);
         log.info("processDefinitionId: %s", this.bodyParams.processDefinitionId);
         log.info("processInstanceId: %s", this.bodyParams.processInstanceId);
         _.each(this.bodyParams.involvedUsers, function(user){
             log.info("user: %s", user)
         })
+        var notification = this.bodyParams;
+        notification.time = new Date().getTime();
+        var result = Notifications.insert(notification);
+        log.info("notification");
+        log.info(notification);
+        log.info(result);
+        //log.info(Session.get("lastNotification"));
         return { status: 'ok' };
     }
 });
