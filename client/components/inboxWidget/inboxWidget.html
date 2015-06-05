@@ -4,7 +4,18 @@
     <ul class="collapsible popout" aaaadata-collapsible="collapsible" style="margin-left: -50px; margin-right: -50px">
         {{#each taskList.tasks.data}}
         <li>
-            <div class="collapsible-header open" data-task-id="{{id}}"><i class="mdi-image-filter-drama"></i>#{{id}} <a style="color:black; font-weight: bold;" href="#form">{{name}}</a> <div class="right">{{assignee}}</div></div>
+            <div class="collapsible-header open" data-task-id="{{id}}">
+                <i class="mdi-image-filter-drama"></i>
+                <div class="row">
+                    <div class="col">{{createTime}}</div>
+                    <div class="col">
+                        <a style="color:black; font-weight: bold;" href="#form">{{name}}</a>
+                    </div>
+                    <div class="col right">#{{id}}</div>
+                    <div class="col right">{{owner}}</div>
+                    <div class="col right">{{assignee}}</div>
+                </div>
+            </div>
             <div class="collapsible-body" style="background-color: white;"><span style="display:block;" class="check-visibility" data-task-id="{{id}}"></span><p id="form_{{id}}">{{> innerFormWidget this}}</p></div>
         </li>
         {{/each}}
