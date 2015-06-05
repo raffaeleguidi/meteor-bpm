@@ -48,6 +48,7 @@ Template.innerFormWidget.events({
         evt.preventDefault();
         var errors = new Array();
         var taskId = $(evt.target).attr("data-task-id");
+        var taskName = $(evt.target).attr("data-attribute-name");
         console.log(taskId);
         var inputs = $('form[data-task-id=' + taskId + '] :input.formData');
         /*log.info(inputs);
@@ -64,9 +65,10 @@ Template.innerFormWidget.events({
             });
             return;
         }
-        var taskName = Session.get("currentTask").name;
+        //var taskName = Session.get("currentTask").name;
         var currentTask = {
-            id: taskId
+            id: taskId,
+            name: taskName
         }
         Bpm.complete(taskId, inputs, function(err, res){
             if (err) {
@@ -78,6 +80,7 @@ Template.innerFormWidget.events({
                 } else {
                     Materialize.toast('Task &laquo;' + taskName + '&raquo; completed', 4000, 'rounded')
                     Bpm.refreshTaskList(null, function(err, res) {
+/*
                         $('.collapsible').collapsible({
                           accordion : false
                         });
@@ -92,6 +95,7 @@ Template.innerFormWidget.events({
                                 });
                             }
                         });
+*/
                     });
                     Bpm.refreshInbox();
                 }

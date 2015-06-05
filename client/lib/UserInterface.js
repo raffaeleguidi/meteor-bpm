@@ -1,9 +1,8 @@
-log = console;
-
-_utils = {
-    refreshInterface: function() {
+UserInterface = {
+    refresh: function() {
         $('.collapsible').collapsible({
-          accordion : false
+            accordion : false,
+            expandable: true
         });
         $.each($('.check-visibility'), function(index, item) {
             log.info('check-visibility %s visible %s', index, $(item).is(":visible"));

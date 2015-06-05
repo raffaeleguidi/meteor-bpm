@@ -133,9 +133,8 @@ Bpm = {
                 // this is the land of confusion
                 Session.set('taskList', taskList);
 
-                $('.collapsible').collapsible({
-                  accordion : false
-                });
+                UserInterface.refresh();
+
                 // and this should be the normality
 
                 if (cb) cb(null, taskList);
@@ -152,14 +151,12 @@ Bpm = {
             if (err) {
                 log.error("errore: %s" , err.message);
             } else {
-//                log.info('refreshInbox received');
                 var inbox = {
                     tasks : res,
                     pages: calculatePages(res),
                     currentPage: page ? page : 1,
                     lastUpdate: new Date()
                 }
-//                log.info(res);
                 Session.set('inbox', inbox);
             }
         });

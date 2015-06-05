@@ -1,8 +1,9 @@
 Template.inboxWidget.onRendered(function () {
     log.info("onRendered");
-    $('.collapsible').collapsible({
+    /*$('.collapsible').collapsible({
       accordion : false
-    });
+    });*/
+    UserInterface.refresh();
 });
 
 Template.inboxWidget.helpers({

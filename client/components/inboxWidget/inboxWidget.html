@@ -1,7 +1,7 @@
 <template name="inboxWidget">
     {{#if taskList.tasks.total}}
     <label>Inbox</label>
-    <ul class="collapsible popout" data-collapsible="accordion" style="margin-left: -50px; margin-right: -50px">
+    <ul class="collapsible popout" aaaadata-collapsible="collapsible" style="margin-left: -50px; margin-right: -50px">
         {{#each taskList.tasks.data}}
         <li>
             <div class="collapsible-header open" data-task-id="{{id}}"><i class="mdi-image-filter-drama"></i>#{{id}} <a style="color:black; font-weight: bold;" href="#form">{{name}}</a> <div class="right">{{assignee}}</div></div>
