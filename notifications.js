@@ -14,7 +14,7 @@ if (Meteor.isClient) {
         var cursor = Notifications.find({ time: {
                         $gt: Session.get("lastNotification").getTime()
                      }});
-/*  not needed, yet */
+        /*  not needed, yet but it makes the tracker needs it to work */
         cursor.forEach(function(element){
             //log.info(element);
         });

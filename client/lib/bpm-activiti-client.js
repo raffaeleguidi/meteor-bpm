@@ -73,7 +73,7 @@ Bpm = {
     activitiHost: 'activiti',
     auth: 'kermit:kermit',
     start: 0,
-    size: 10,
+    size: 15,
 
     startProcessInstance: function(processInstanceId, variables) {
         pendingPlusOne();
