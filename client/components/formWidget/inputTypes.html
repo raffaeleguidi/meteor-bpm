@@ -7,7 +7,7 @@
            type="text" id="formData_{{id}}"
            data-property-name="{{name}}"
            data-property-id="{{id}}"
-           data-task-id="{{taskId}}"
+           data-task-id="{{parentTaskId ../..}}"
            value="{{value}}"/>
     {{else}}
     <div class="section">
@@ -20,7 +20,14 @@
 <template name="input_date">
     <div class="section">
         {{#if writable}}
-        <input placeholder="Pick a {{type}} for &laquo;{{name}}&raquo;"  style="border: 0px; width:100%" class="formData datepicker {{#if required}}required{{/if}} {{type}}" id="formData_{{id}}" data-property-name="{{name}}" data-property-id="{{id}}" value="{{value}}"/>
+        <input
+               placeholder="Pick a {{type}} for &laquo;{{name}}&raquo;"
+               style="border: 0px; width:100%"
+               class="formData datepicker {{#if required}}required{{/if}} {{type}}"
+               data-task-id="{{parentTaskId ../..}}"
+               data-property-name="{{name}}"
+               data-property-id="{{id}}"
+               value="{{value}}"/>
         {{else}}
         <i class="disabled">{{#if value}}{{value}}{{else}}{ empty }{{/if}}</i>
         {{/if}}
@@ -34,7 +41,7 @@
                 class="formData {{type}} browser-default {{#if required}}required{{/if}}"
                 id="formData_{{id}}"
                 data-property-name="{{name}}"
-                data-task-id="{{taskId}}"
+                data-task-id="{{parentTaskId ../..}}"
                 data-property-id="{{id}}" >
             <option value="" disabled selected>Choose your option</option>
             {{#each enumValues}}
@@ -69,7 +76,7 @@
                                                              id="form_{{id}}"
                                                              disabled="true"
                                                              class=" {{#if required}}required{{/if}} disabled formData json"
-                                                             data-task-id="{{taskId}}"
+                                                             data-task-id="{{parentTaskId ../..}}"
                                                              type="text"
                                                              value="{{serialize this.data}}" />
                     <label>field &laquo;jsonType&raquo;</label><input data-field="{{id}}" data-ref="jsonType" class="weird" type="text" placeholder="data.jsonType" value="{{data.jsonType}}" />

@@ -13,6 +13,10 @@ Template.input_enum.rendered = function(){
     });
 };
 
+Template.registerHelper('parentTaskId', function(parentContext) {
+  return parentContext.id;
+});
+
 Template.formWidget.helpers({
     formData: function() {
         return Session.get('formData');
@@ -63,6 +67,7 @@ Template.innerFormWidget.events({
             _.each(errors, function(item){
                 Materialize.toast('&laquo;' + item.name + '&raquo; ' + item.message, 2000, 'rounded'); // 4000 is the duration of the toast
             });
+            $('input[data-task-id=' + taskId + '][data-property-id=' + errors[0].id + ']').focus();
             return;
         }
         //var taskName = Session.get("currentTask").name;
@@ -79,24 +84,7 @@ Template.innerFormWidget.events({
                     Materialize.toast('Error completing task &laquo;' + taskName + '&raquo;', 4000, 'rounded')
                 } else {
                     Materialize.toast('Task &laquo;' + taskName + '&raquo; completed', 4000, 'rounded')
-                    Bpm.refreshTaskList(null, function(err, res) {
-/*
-                        $('.collapsible').collapsible({
-                          accordion : false
-                        });
-                        $.each($('.check-visibility'), function(index, item) {
-                            log.info('check-visibility %s visible %s', index, $(item).is(":visible"));
-                            if ($(item).is(":visible")) {
-                                var target= $('.open[data-task-id=' + $(item).attr("data-task-id")+ ']');
-                                Bpm.getFormData3($(item).attr("data-task-id"), function(err, res){
-                                    $(evt.target).attr('data-form-initialized', true);
-                                    log.info("formData_" + res.taskId);
-                                    Session.set('formData_' + res.taskId, res);
-                                });
-                            }
-                        });
-*/
-                    });
+                    Bpm.refreshTaskList();
                     Bpm.refreshInbox();
                 }
             }

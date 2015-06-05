@@ -199,7 +199,8 @@ Bpm = {
         pendingPlusOne();
         Meteor.call("complete", taskId, normalizeProperties(formElements), function(err, res) {
             pendingMinusOne();
-            cb(err, res);
+            if (cb)
+                cb(err, res);
         });
     },
     reset: function(){
