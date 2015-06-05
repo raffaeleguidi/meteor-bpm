@@ -34,13 +34,15 @@ Template.inboxWidget.helpers({
 Template.inboxWidget.events({
     'click .open': function (evt) {
         log.info('open');
+        //if ( $(evt.target).attr('data-form-initialized')) return;
         Session.set('currentTask', this);
         Bpm.getFormData3(this.id, function(err, res){
+            $(evt.target).attr('data-form-initialized', true);
             log.info("formData_" + res.taskId);
             Session.set('formData_' + res.taskId, res);
         });
-        $('body').focus();
-        window.location.hash = 'form';
+        //$('body').focus();
+        //window.location.hash = 'form';
     },
     'click .page': function (evt) {
         log.info("page %d", dataAttr);

@@ -24,7 +24,7 @@ Template.main.events({
         Session.set("showStartBox", true);
     },
     'click .page-title': function () {
-        reset();
+        Bpm.reset();
         return false;
     },
     'keydown body': function(evt){
